@@ -324,6 +324,7 @@ class WebsiteController extends Controller
         $parkingspace = ParkingSpace::where('status', 1)->get();
         foreach ($parkingspace as $key => $value) {
             $value->rating = Review::where('space_id', $value->id)->get()->avg('star');
+            $value->images = '';
         }
         $adminsetting = AdminSetting::first(['currency_symbol', 'map_key']);
         return view('website.map-list', compact('parkingspace', 'adminsetting'));

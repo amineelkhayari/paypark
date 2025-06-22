@@ -1,4 +1,9 @@
-<script src="https://maps.googleapis.com/maps/api/js?key={{$adminsetting->map_key}}&libraries=places" type="text/javascript"></script>
+<!-- Leaflet & Geocoder CDN -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
 @extends('owner.app', ['title' => __('Space')],['activePage' => 'spaces'])
 @section('content')
      @include('owner.layouts.headers.header',
@@ -160,62 +165,79 @@
             </div>
         </div>
     </div>
- <script>
+ 
+    <script>
+    // Example marker data
     var markers = [
-    {
-        "title": 'USA',
-        "lat": '40.7118',
-        "lng": '-74.0062',
-        "description": '40 Park Row, New York, NY 10038, USA'
-    }
-];
-window.onload = function () {
-    var mapOptions = {
-        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-        zoom: 8,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var infoWindow = new google.maps.InfoWindow();
-    var latlngbounds = new google.maps.LatLngBounds();
-    var geocoder = geocoder = new google.maps.Geocoder();
-    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-    for (var i = 0; i < markers.length; i++) {
-        var data = markers[i]
-        var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            map: map,
-            title: data.title,
-            draggable: true,
-            animation: google.maps.Animation.DROP
+        {
+            "title": 'your location',
+            "lat": 40.7118,
+            "lng": -74.0062
+        }
+    ];
+
+    // 📍 Try to get user geolocation
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+
+            // Update marker position with user's location
+            markers[0].lat = userLat;
+            markers[0].lng = userLng;
+
+            // Set form values
+            document.getElementById('lat').value = userLat.toFixed(7);
+            document.getElementById('lng').value = userLng.toFixed(7);
+
+            // Re-initialize map now that we have user location
+            initLeafletMap();
+        }, function (error) {
+            console.warn("Geolocation failed:", error.message);
+            // Fallback to initial position
+            initLeafletMap();
         });
-        (function (marker, data) {
-            google.maps.event.addListener(marker, "click", function (e) {
-                infoWindow.setContent(data.description);
-                infoWindow.open(map, marker);
-            });
-            google.maps.event.addListener(marker, "dragend", function (e) {
-                var lat, lng, address;
-                geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                      var lat = marker.getPosition().lat().toFixed(4);
-                      var lng = marker.getPosition().lng().toFixed(4);
-                        address = results[0].formatted_address;
-                        $('#lat').val(lat);
-		                $('#lng').val(lng);
-                        $("#address").val(address);
-                        // alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
-                    }
-                });
-            });
-        })(marker, data);
-        latlngbounds.extend(marker.position);
+    } else {
+        console.warn("Geolocation not supported by this browser.");
+        initLeafletMap();
     }
-    var bounds = new google.maps.LatLngBounds();
-    map.setCenter(latlngbounds.getCenter());
-    map.fitBounds(latlngbounds);
-}
+
+    function initLeafletMap() {
+        const map = L.map('dvMap').setView([markers[0].lat, markers[0].lng], 8);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        const bounds = [];
+
+        markers.forEach(function (data) {
+            const marker = L.marker([data.lat, data.lng], {
+                draggable: true,
+                title: data.title
+            }).addTo(map);
+
+            //marker.bindPopup();
+
+            marker.on('dragend', function () {
+                const latlng = marker.getLatLng();
+                const lat = latlng.lat.toFixed(7);
+                const lng = latlng.lng.toFixed(7);
+                document.getElementById('lat').value = lat;
+                document.getElementById('lng').value = lng;
+            });
+
+            bounds.push([data.lat, data.lng]);
+        });
+
+        if (bounds.length > 1) {
+            map.fitBounds(bounds);
+        } else {
+            map.setView(bounds[0], 13); // Zoom closer if only one marker
+        }
+    }
 </script>
+
 @endsection
 <script language="JavaScript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>    
 <script type="text/javascript">
