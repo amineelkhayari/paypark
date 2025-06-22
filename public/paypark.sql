@@ -314,11 +314,8 @@ CREATE TABLE `language` (
 --
 
 INSERT INTO `language` (`id`, `name`, `direction`, `image`, `json_file`, `status`, `created_at`) VALUES
-(2, 'arabic', 'rtl', 'arabic.png', 'arabic.json', 1, '2022-04-06 04:50:24'),
-(6, 'german', 'ltr', 'german.png', 'german.json', 1, '2022-04-05 05:34:37'),
-(7, 'english', 'ltr', 'english.png', 'english.json', 1, '2022-04-06 04:50:38'),
-(8, 'gujarati', 'ltr', 'gujarati.png', 'gujarati.json', 1, '2022-04-06 12:58:24'),
-(9, 'hindi', 'ltr', 'hindi.png', 'hindi.json', 1, '2022-04-06 13:16:42');
+(1, 'arabic', 'rtl', 'arabic.png', 'arabic.json', 1, '2022-04-06 04:50:24'),
+(2, 'english', 'ltr', 'english.png', 'english.json', 1, '2022-04-06 04:50:38');
 
 -- --------------------------------------------------------
 
@@ -1295,7 +1292,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'PayPark Admin', 'paypark@saasmonks.in', NULL, '$2y$10$g/L/W4ID9zR6bB6QQPtmhOc6.jeMbT9gZx.Wy9dOMqRhSk6YOW3Qi', '1ykikMolUl2l3gexOzsxRydiVt6pDgmeRYln63PFkVWv5valpAjJxVkw25Pk', '2019-10-18 07:42:51', '2022-10-11 06:51:16');
+(1, 'PayPark Admin', 'amine@gmail.com', NULL, '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', NULL, '2025-10-18 07:42:51', '2025-10-11 06:51:16');
 
 -- --------------------------------------------------------
 

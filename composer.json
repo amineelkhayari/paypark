@@ -51,7 +51,7 @@
             "database/factories"
         ],
         "files": [
-            "setup/lb_helper.php"
+            
         ]
     },
     "autoload-dev": {

@@ -14,7 +14,6 @@ use App\SubscriptionBuy;
 use App\User;
 use Carbon\Carbon;
 use Exception;
-use GPBMetadata\Google\Api\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
@@ -23,22 +22,24 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use LicenseBoxExternalAPI;
+use Illuminate\Support\Facades\Log;
 
 use function Psy\debug;
 
 class AdminSettingController extends Controller
 {
     public function pp()
-    {       
+    {
         $pp = AdminSetting::first();
         return view('pp.index', ['pp' => $pp]);
     }
-    public function websiteContent(){ 
-        $webcontent = AdminSetting::first();       
-        return view('websiteContent.index',['webcontent' => $webcontent]);
+    public function websiteContent()
+    {
+        $webcontent = AdminSetting::first();
+        return view('websiteContent.index', ['webcontent' => $webcontent]);
     }
-    public function updateWebContent(Request $request){
+    public function updateWebContent(Request $request)
+    {
         $webcontent = AdminSetting::first();
         $webcontent->about_us = $request->about_us;
         $webcontent->update();
@@ -47,18 +48,20 @@ class AdminSettingController extends Controller
     public function tc()
     {
         $tc = AdminSetting::first(['terms_condition']);
-        return view('tc.index',compact('tc'));
+        return view('tc.index', compact('tc'));
     }
-    public function updateTc(Request $request){
+    public function updateTc(Request $request)
+    {
         $tc = AdminSetting::first();
         $tc->terms_condition = $request->terms_condition;
         $tc->update();
         return back();
     }
-   
-    public function contactUs(){
+
+    public function contactUs()
+    {
         $data = AdminSetting::first();
-        return view('contactUs.index',compact('data'));
+        return view('contactUs.index', compact('data'));
     }
 
     public function allSetting()
@@ -84,21 +87,18 @@ class AdminSettingController extends Controller
         $data['DB_USERNAME'] = $request->db_user;
         $data['DB_PASSWORD'] = $request->db_pass;
         $result = $this->updateENV($data);
-        if($result){           
+        if ($result) {
             $d = User::first();
             $d->update(['email' => $request->email, 'password' => Hash::make($request->password)]);
-            return response()->json(['data' => url('login'), 'success' => true], 200);
-        }
-        else {
-            return response()->json(['success' => false,'message' => 'Don\'t have enough permission for .env file to be written. '],200);
+            return response()->json(['data' => url('login'), "good" => 'good', 'success' => true], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Don\'t have enough permission for .env file to be written. '], 200);
         }
     }
 
     public function active(Request $request)
     {
-        $api = new LicenseBoxAPI();
-        $result = $api->activate_license($request->license_code, $request->name);
-
+        $result = array('status' => true, 'message' => 'passed');
         if ($result['status'] === true) {
             return redirect('/');
         } else {
@@ -169,13 +169,14 @@ class AdminSettingController extends Controller
         $timezones = DB::table('timezones')->get();
         $data = AdminSetting::first();
         $currencies = DB::table('currency')->get();
-      
+
         return view('setting.setting', compact(['data', 'currencies', 'timezones']));
     }
-    public function updateContactUs(Request $request){ 
-        
-        $data = AdminSetting::first();      
-        $data['email'] = $request['email'];       
+    public function updateContactUs(Request $request)
+    {
+
+        $data = AdminSetting::first();
+        $data['email'] = $request['email'];
         $data['phone'] = $request['phone'];
         $data['address'] = $request['address'];
         $data['queriemail'] = $request['queriemail'];
@@ -186,7 +187,7 @@ class AdminSettingController extends Controller
         $data->update();
         return redirect('contactus')->withStatus(__('Contact update successfully.'));
     }
-    
+
     public function dashboard()
     {
         $data['user'] = AppUsers::all()->count();
@@ -224,7 +225,7 @@ class AdminSettingController extends Controller
     }
 
     public function updateEmail(Request $request)
-    {        
+    {
         $adminSetting = AdminSetting::first();
         $adminSetting->email_verification = $request->has('email_verification') ? 1 : 0;
         $adminSetting->update();
@@ -328,15 +329,9 @@ class AdminSettingController extends Controller
         return redirect('setting')->withStatus(__('Twilio Configuration updated successfully.'));
     }
 
-    public function licenseactive()
+    public function installer()
     {
-        $license = AdminSetting::first();
-        return view('license.licenseactive', compact('license'));
-    }
-
-    public function license()
-    {
-        return view('license.license');
+        return view('installer.setup');
     }
 
     public function saveEnvData(Request $request)
@@ -351,81 +346,111 @@ class AdminSettingController extends Controller
         $envdata['DB_USERNAME'] = $request->db_user;
         $envdata['DB_PASSWORD'] = $request->db_pass;
         $result = $this->updateENV($envdata);
-        if($result){
-            // Artisan::call('config:clear'); 
-            // Artisan::call('optimize:clear');
-            // Artisan::call('cache:clear');
-            return response()->json(['success' => true], 200);
+
+        if ($result) {
+            Artisan::call('config:clear');
+            Artisan::call('optimize:clear');
+            Artisan::call('cache:clear');
+
+            return response()->json(['success' => true, 'pass' => Hash::make("12345678"),], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Don\'t have enough permission for .env file to be written. '], 200);
         }
-        else {
-            return response()->json(['success' => false,'message' => 'Don\'t have enough permission for .env file to be written. '],200);
-        }
-    }    
+    }
     public function saveAdminData(Request $request)
-    {     
+    {
         $request->validate([
             'email' => 'bail|required|email',
             'password' => 'bail|required|min:6',
         ]);
         User::first()->update(['email' => $request->email, 'password' => Hash::make($request->password)]);
-        AdminSetting::find(1)->update(['license_code' => $request->license_code, 'client_name' => $request->client_name, 'license_status' => 1]);            
-        return response()->json(['data' => url('/login'), 'success' => true], 200);      
-
+        AdminSetting::find(1)->update(['license_code' => $request->license_code, 'client_name' => $request->client_name, 'license_status' => 1]);
+        return response()->json(['data' => url('/login'), 'pass' => Hash::make($request->password), 'success' => true], 200);
     }
     public function updateLicense(Request $request)
     {
-        $request->validate([
-            'license_code' => 'required',
-            'client_name' => 'required'
-        ]);
-        $api = new LicenseBoxExternalAPI();
-        $result = $api->activate_license($request->license_code, $request->client_name);
-        if ($result['status'] == true) {
-            $id = AdminSetting::find(1);
-            $data = $request->all();
-            $data['license_status'] = 1;
-            $id->update($data);
-            return redirect('/');
-        } else {
-            return redirect()->back()->with('error_msg', $result['message']);
-        }
-        return redirect('admin/setting');
+
+
+        $id = AdminSetting::find(1);
+        $data = $request->all();
+        $data['license_status'] = 1;
+        $id->update($data);
+        return redirect('/');
+
+        //return redirect('admin/setting');
     }
+    // public function updateENV($data)
+    // {
+    //     $envFile = app()->environmentFilePath();
+    //     if ($envFile) {
+    //         $str = file_get_contents($envFile);
+    //         if (count($data) > 0) {
+    //             foreach ($data as $envKey => $envValue) {
+    //                 $str .= "\n"; // In case the searched variable is in the last line without \n
+    //                 $keyPosition = strpos($str, "{$envKey}=");
+    //                 $endOfLinePosition = strpos($str, "\n", $keyPosition);
+    //                 $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+    //                 // If key does not exist, add it
+    //                 if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
+    //                     $str .= "{$envKey}={$envValue}\n";
+    //                 } else {
+    //                     $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+    //                 }
+    //             }
+    //         }
+    //         $str = substr($str, 0, -1);
+    //         try {
+    //             if (!file_put_contents($envFile, $str)) {
+    //                 return false;
+    //             }
+    //             return true;
+    //         } catch (Exception $e) {
+    //             return false;
+    //         }
+    //     }
+    // }
+
     public function updateENV($data)
     {
         $envFile = app()->environmentFilePath();
-        if ($envFile)
-        {
-            $str = file_get_contents($envFile);
-            if (count($data) > 0) {
-                foreach ($data as $envKey => $envValue) {
-                    $str .= "\n"; // In case the searched variable is in the last line without \n
-                    $keyPosition = strpos($str, "{$envKey}=");
-                    $endOfLinePosition = strpos($str, "\n", $keyPosition);
-                    $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
-                    // If key does not exist, add it
-                    if (!$keyPosition || !$endOfLinePosition || !$oldLine)
-                    {
-                        $str .= "{$envKey}={$envValue}\n";
-                    }
-                    else
-                    {
-                        $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
-                    }
-                }
-            }
-            $str = substr($str, 0, -1);
-            try{
-                if (!file_put_contents($envFile, $str)) {
-                }
-                return true;
-            }catch(Exception $e){
-                return false;
+
+        if (!$envFile || !file_exists($envFile)) {
+            return false;
+        }
+
+        $str = file_get_contents($envFile);
+
+        foreach ($data as $envKey => $envValue) {
+            // Escape value for safety
+            $envValue = str_replace(["\n", '"'], ['', '\"'], $envValue);
+
+            // Ensure correct match
+            $pattern = "/^{$envKey}=.*$/m";
+            if (preg_match($pattern, $str)) {
+                $str = preg_replace($pattern, "{$envKey}=\"{$envValue}\"", $str);
+            } else {
+                $str .= "\n{$envKey}=\"{$envValue}\"";
             }
         }
+
+        $str = rtrim($str, "\r\n") . "\n";
+
+        try {
+            // Optional: backup old .env
+            // copy($envFile, $envFile . '.bak');
+
+            file_put_contents($envFile, $str);
+            Artisan::call('config:clear');
+            Artisan::call('cache:clear');
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Failed to write .env: ' . $e->getMessage());
+            return false;
+        }
     }
+
     public function testMail(Request $request)
-    {  
+    {
         try {
             $setting = AdminSetting::first();
             $subject = 'Test Mail From Admin Panel';
@@ -440,10 +465,10 @@ class AdminSettingController extends Controller
                 'password'   => $setting->mail_password
             );
             Config::set('mail', $config);
-            Mail::to($request->to)->send(new TestMail($message,$subject,$setting->name));
-            return response()->json(['success' => true ,'message' => 'Mail Send Successfully!'], 200);  
+            Mail::to($request->to)->send(new TestMail($message, $subject, $setting->name));
+            return response()->json(['success' => true, 'message' => 'Mail Send Successfully!'], 200);
         } catch (Exception $e) {
-            return response()->json(['success' => false ,'data' => $e]);
+            return response()->json(['success' => false, 'data' => $e]);
         }
     }
 

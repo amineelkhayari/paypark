@@ -45,20 +45,6 @@
         @include('layouts.navbars.navbar')
         @if (auth()->check())
         @yield('content')
-        @if (App\AdminSetting::first()->license_status)
-            @yield('license')
-        @else
-            <script>
-                var a = $('meta[name=base_url]').attr('content');
-                if(window.location.origin + window.location.pathname != a + '/licenseactive')
-                // if(window.location.pathname != '/licenseactive')
-                {
-                    window.alert('License is deactivates please active your license.');
-                    window.location.href=(a+'/licenseactive');
-                }
-            </script>
-            @yield('license')
-        @endif
     @else
         @yield('content')
     @endif

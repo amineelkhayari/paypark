@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use LicenseBoxExternalAPI;
 use App\AdminSetting;
 
 class LoginController extends Controller
@@ -44,19 +43,6 @@ class LoginController extends Controller
 
     public function credentials(Request $request)
     {
-        // $data = AdminSetting::find(1);
-        // $api = new LicenseBoxExternalAPI();
-        // $res = $api->verify_license();
-        // if ($res['status'] != true)
-        // {
-        //     $data->license_status = 0;
-        //     $data->save();
-        // }
-        // else
-        // {
-        //     $data->license_status = 1;
-        //     $data->save();
-        // }
         return ['email'=>$request->{$this->username()},'password'=>$request->password];    
     }
 }
