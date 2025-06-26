@@ -24,7 +24,6 @@ use App\Http\Controllers\ParkingOwnerController;
 use App\Http\Controllers\ParkingSpaceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\NotificationTemplateController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\VehicleTypesController;
@@ -88,16 +87,9 @@ Route::middleware(['XssSanitizer'])->group(function () {
         Route::get('/dashboard', [AdminSettingController::class, 'dashboard']);
         Route::get('/home', [AdminSettingController::class, 'dashboard'])->name('home');
         Route::resource('languages', 'LanguageController');
-        Route::put('setting/email', [AdminSettingController::class, 'updateEmail'])->name('setting.email');
         Route::put('setting/payments', [AdminSettingController::class, 'updatePayments'])->name('setting.payments');
         Route::put('setting/general_setting', [AdminSettingController::class, 'updateGeneralSetting'])->name('setting.generalsetting');
-        Route::put('setting/notification', [AdminSettingController::class, 'updateNotification'])->name('setting.notification');
-        Route::put('setting/ownerNotification', [AdminSettingController::class, 'updateOwnerNotification'])->name('setting.ownerNotification');
-        Route::put('setting/guardNotification', [AdminSettingController::class, 'updateGuardNotification'])->name('setting.guardNotification');
-        Route::put('setting/twilio', [AdminSettingController::class, 'updateTwilio'])->name('setting.twilio');
-        Route::get('notification_template', [NotificationTemplateController::class, 'index']);
-        Route::get('edit_notification/{id}', [NotificationTemplateController::class, 'edit_notification']);
-        Route::post('update_template/{id}', [NotificationTemplateController::class, 'update_template']);
+      
         Route::post('/block_parkingOwner/{id}', [AdminSettingController::class, 'blockParkingOwner']);
     });
     Route::get('selectlanguage/{id}', [LanguageController::class, 'SelectLanguage']);

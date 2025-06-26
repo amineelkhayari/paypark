@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Language;
-use File;
+use Illuminate\Support\Facades\File;
+
 
 use Illuminate\Http\Request;
 

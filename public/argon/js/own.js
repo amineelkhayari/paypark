@@ -190,33 +190,5 @@ $(document).ready(function ()
     // datatable over
 });
 
-// Notification template
-function edit_template(id)
-{
-    $.ajax({
-        headers:
-        {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: "GET",
-        url: base_url + '/edit_notification'+'/'+id,
-        success: function (result)
-        {
-            if(result.success == true)
-            {
-                $('#subject').val(result.data.subject);
-                $('#title').val(result.data.title);
-                $('h5').text(result.data.title);
-                $('#msg_content').val(result.data.msg_content);
-                $('#mail_content').summernote('code', result.data.mail_content);
-                $('.update_template').attr("action",base_url+"/update_template/"+result.data.id);
-            }
-        },
-        error: function (err) {
-
-        }
-    });
-}
-
 
 

@@ -61,7 +61,6 @@
          }
          $language = App\Language::where('status',1)->get();
          @endphp
-        
          <button type="button" data-dropdown-toggle="language-dropdown-menu" class="inline-flex items-center justify-center text-sm text-gray-500 rounded-lg cursor-pointer bg-white w-[128px] h-[50px] border border-[#A2CFFF] gap-2 s:mt-5 lg:mt-0">
              @if(session()->get('lngimage'))
              <img src="{{ asset('upload')}}/{{session()->get('lngimage')}}" class="w-[24px] h-[24px] mr-2" alt="">

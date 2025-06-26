@@ -103,11 +103,7 @@
                         <i class="ni ni-diamond text-warning"></i> {{ __('Language') }}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ $activePage == 'template' ? 'active' : '' }}" href="{{ url('notification_template') }}">
-                        <i class="ni ni-single-copy-04 text-danger"></i> {{ __('Notification Template') }}
-                    </a>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link {{ $activePage == 'tc' ? 'active' : '' }}" href="{{ url('tc') }}">
                         <i class="ni ni-settings-gear-65 text-success"></i> {{ __('Terms and Condition') }}

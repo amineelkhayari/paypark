@@ -314,8 +314,8 @@ CREATE TABLE `language` (
 --
 
 INSERT INTO `language` (`id`, `name`, `direction`, `image`, `json_file`, `status`, `created_at`) VALUES
-(1, 'arabic', 'rtl', 'arabic.png', 'arabic.json', 1, '2022-04-06 04:50:24'),
-(2, 'english', 'ltr', 'english.png', 'english.json', 1, '2022-04-06 04:50:38');
+(1, 'Francais', 'ltr', 'english.png', 'francais.json', 1, '2022-04-06 04:50:38'),
+(2, 'arabic', 'rtl', 'arabic.png', 'arabic.json', 1, '2022-04-06 04:50:24');
 
 -- --------------------------------------------------------
 
