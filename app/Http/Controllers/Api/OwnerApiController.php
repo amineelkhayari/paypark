@@ -125,16 +125,12 @@ class OwnerApiController extends Controller
         $paymentSetting = ParkingOwnerSetting::where('owner_id',auth()->user()->id)->first();
         $request->validate([
             'stripe_status' => 'bail|required',
-            'razorpay_status' => 'bail|required',
             'cod' => 'bail|required',
             'paypal_status' => 'bail|required',
-            'flutterwave_status' => 'bail|required',
             'stripe_secret' => 'bail|required_if:stripe_status,1',
             'stripe_public' => 'bail|required_if:stripe_status,1',
-            'razorpay_key' => 'bail|required_if:razorpay_status,1',
             'paypal_client_key' => 'bail|required_if:paypal_status,1',
             'paypal_secret_key' => 'bail|required_if:paypal_status,1',
-            'flutterwave_key' => 'bail|required_if:flutterwave_status,1',
         ]);
         $data = $request->all();
         $paymentSetting->update($data);

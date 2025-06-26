@@ -198,17 +198,13 @@ class OwnerController extends Controller
         $request->validate([
             'stripe_secret' => 'bail|required_if:stripe_status,1',
             'stripe_public' => 'bail|required_if:stripe_status,1',
-            'razorpay_key' => 'bail|required_if:razorpay_status,1',
             'paypal_client_key' => 'bail|required_if:paypal_status,1',
             'paypal_secret_key' => 'bail|required_if:paypal_status,1',
-            'flutterwave_key' => 'bail|required_if:flutterwave_status,1',
         ]);
         $data = $request->all();
         $data['stripe_status'] = $request->has('stripe_status') ? 1 : 0;
-        $data['razorpay_status'] = $request->has('razorpay_status') ? 1 : 0;
         $data['paypal_status'] = $request->has('paypal_status') ? 1 : 0;
         $data['cod'] = $request->has('cod') ? 1 : 0;
-        $data['flutterwave_status'] = $request->has('flutterwave_status') ? 1 : 0;
         $paymentSetting->update($data);
         return back()->with('status', 'PaymentSetting updated.');
     }

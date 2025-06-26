@@ -18,16 +18,7 @@
                             <input id="customRadio1" type="radio" value="paypal" name="paymentRadio" class="custom-control-input w-[20px] h-[20px] rounded-full text-blue-600 border-[#BAC7D5]">
                         </div>
                         @endif
-                        @if ($adminsetting['razorpay_status'])
-                        <div class="flex justify-between items-center rounded-lg w-[230px] h-[56px] px-3 bg-light-blue mb-3">
-                            <div class="flex items-center gap-2">
-                                <div>
-                                    <img src="{{asset('website/image/razorpay.png')}}">
-                                </div>
-                            </div>
-                            <input id="customRadio2" type="radio" value="razorpay" name="paymentRadio" class="custom-control-input w-[20px] h-[20px] rounded-full text-blue-600 border-[#BAC7D5]">
-                        </div>
-                        @endif
+                        
                         @if ($adminsetting['stripe_status'])
                         <div class="flex justify-between items-center rounded-lg w-[230px] h-[56px] px-3 bg-light-blue mb-3">
                             <div class="flex items-center gap-2">
@@ -38,16 +29,7 @@
                             <input id="customRadio3" type="radio" value="stripe" name="paymentRadio" class="custom-control-input w-[20px] h-[20px] rounded-full text-blue-600 border-[#BAC7D5]">
                         </div>
                         @endif
-                        @if ($adminsetting['flutterwave_status'])
-                        <div class="flex justify-between items-center rounded-lg w-[230px] h-[56px] px-3 bg-light-blue mb-3">
-                            <div class="flex items-center gap-2">
-                                <div>
-                                    <img src="{{asset('website/image/flutterwave.png')}}">
-                                </div>
-                            </div>
-                            <input id="customRadio4" type="radio" value="flutterwave" name="paymentRadio" class="custom-control-input w-[20px] h-[20px] rounded-full text-blue-600 border-[#BAC7D5]">
-                        </div>
-                        @endif
+                       
                     </div>
                     <form action="{{url('/billing')}}" method="post">
                         @csrf
@@ -126,24 +108,9 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="mt-2 razorCard hidden">
-                                <input type="hidden" name="razorpay_key" value="{{ $adminsetting['razorpay_key'] }}">
+                            
 
-                                <div class="card-body text-center">
-                                    <button type="submit" class="bg-primary l:w-[250px] h-[47px] s:w-full rounded-md font-poppins font-medium text-white text-lg mt-4" name="RazorBtn" id="paybtn" data-total="{{ $total }}" onclick="RazorPayPayment()">{{ __('Pay with Razorpay') }}</button>
-                                </div>
-                            </div>
-
-                            <div class="mt-2 flutterwaveCard hidden">
-                                <input type="hidden" name="flutterwave_key" value="{{ $adminsetting['flutterwave_key'] }}">
-                                <input type="hidden" name="currency" value="{{ $adminsetting['currency'] }}">
-                                <input type="hidden" name="name" value="{{ Auth::guard('appuser')->user()->name }}">
-                                <input type="hidden" name="email" value="{{ Auth::guard('appuser')->user()->email }}">
-                                <input type="hidden" name="phone_no" value="{{ Auth::guard('appuser')->user()->phone_no }}">
-                                <div class="card-body text-center">
-                                    <button type="submit" class="bg-primary l:w-[250px] h-[47px] s:w-full rounded-md font-poppins font-medium text-white text-lg mt-4" onclick="makePayment()">{{ __('Pay with Flutterwave') }}</button>
-                                </div>
-                            </div>
+                            
                             <div class="mt-2 paypalCard hidden">
                                 <div class="paypal_row_body"></div>
                             </div>
@@ -240,53 +207,24 @@
     </div>
 </div>
 
-<!-- Booking Modal -->
-
-{{-- <div id="booking" tabindex="-1" aria-hidden="true" class="fixed top-5 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto  h-modal md:h-full">
-    <div class="relative xxxxl:w-[499px] s:w-full h-full max-w-2xl md:h-auto">        
-        <div class="relative bg-white rounded-2xl shadow dark:bg-gray-700 p-8">         
-            <img src="{{asset('website/icon/book.svg')}}" alt="" class="mx-auto mb-8">
-<h5 class="font-poppins font-bold text-3xl text-[#404F65] text-center mb-16">{{__('Your slot has been booked')}}</h5>
-<button class="w-full border border-[#EEF0F3] rounded-[6px] h-14 font-poppins font-medium text-lg text-[#8896AB] tracking-wide mb-5">{{__('Back to home')}}</button>
-<button class="w-full bg-primary rounded-[6px] h-14 font-poppins font-medium text-lg text-white tracking-wide mb-10">{{__('View order')}}</button>
-</div>
-</div>
-</div> --}}
-
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://www.paypal.com/sdk/js?client-id={{ $adminsetting->paypal_sandbox }}&currency={{ $adminsetting->currency }}" data-namespace="paypal_sdk"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://checkout.flutterwave.com/v3.js"></script>
 <script>
     $('input[name="paymentRadio"]').change(function() {
         if (this.value == 'stripe') {
             $('.stripeCard').show(500);
-            $('.razorCard').hide(500);
             $('.paypalCard').hide(500);
-            $('.flutterwaveCard').hide(500);
             StripePayment();
         }
-        if (this.value == 'razorpay') {
-            $('.razorCard').show(500);
-            $('.stripeCard').hide(500);
-            $('.paypalCard').hide(500);
-            $('.flutterwaveCard').hide(500);
-        }
+        
         if (this.value == 'paypal') {
             $('.paypalCard').show(500);
-            $('.razorCard').hide(500);
             $('.stripeCard').hide(500);
-            $('.flutterwaveCard').hide(500);
             paypalPayment();
         }
-        if (this.value == 'flutterwave') {
-            $('.flutterwaveCard').show(500);
-            $('.paypalCard').hide(500);
-            $('.razorCard').hide(500);
-            $('.stripeCard').hide(500);
-        }
+        
     });
 </script>
 <script>

@@ -555,46 +555,6 @@ array(
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <div class="form-group">
-                                                        <div class="custom-control custom-checkbox mb-3">
-                                                            <input class="hide_value custom-control-input" value="1"
-                                                                name="razorpay_status" {{ $data['razorpay_status']==1
-                                                                ? 'checked' : '' }} id="razorpay" type="checkbox">
-                                                            <label class="custom-control-label" for="razorpay">{{
-                                                                __('Razorpay') }}</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-8">
-                                                    <div
-                                                        class="form-group{{ $errors->has('razorpay_key') ? ' has-danger' : '' }}">
-                                                        <label class="form-control-label" for="Razorpay key">{{
-                                                            __('Razorpay
-                                                            key') }}</label>
-                                                        <input type="text" name="razorpay_key" id="input-name"
-                                                            class="hide_value form-control form-control-alternative{{ $errors->has('razorpay_key') ? ' is-invalid' : '' }}"
-                                                            value="{{ old('razorpay_key',$data['razorpay_key']) }}">
-
-                                                        @if ($errors->has('razorpay_key'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('razorpay_key') }}</strong>
-                                                        </span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="form-group">
-                                                        <div class="text-center">
-                                                            <a type="submit"
-                                                                href="https://razorpay.com/docs/payments/dashboard/settings/api-keys/"
-                                                                target="_blank" class="btn btn-primary mt-4 rtl_btn">{{
-                                                                __('Help') }}</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <div class="row">
                                                 <div class="col-2">
@@ -686,66 +646,7 @@ array(
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <div class="form-group">
-                                                        <div class="custom-control custom-checkbox mb-3">
-                                                            <input class="hide_value custom-control-input" value="1"
-                                                                id="flutterwavekey" {{ $data['flutterwave_status']==1
-                                                                ? 'checked' : '' }} name="flutterwave_status"
-                                                                type="checkbox">
-                                                            <label class="custom-control-label" for="flutterwavekey">{{
-                                                                __('Flutterwave') }}</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4">
-                                                    <div
-                                                        class="form-group{{ $errors->has('flutterwave_key') ? ' has-danger' : '' }}">
-                                                        <label class="form-control-label" for="Flutterwave">{{
-                                                            __('Flutterwave') }}</label>
-                                                        <input type="text" name="flutterwave_key" id="input-name"
-                                                            class="hide_value form-control form-control-alternative{{ $errors->has('flutterwave_key') ? ' is-invalid' : '' }}"
-                                                            value="{{ old('flutterwave_key',$data['flutterwave_key']) }}">
-
-                                                        @if ($errors->has('flutterwave_key'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('flutterwave_key') }}</strong>
-                                                        </span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-4">
-                                                    <div
-                                                        class="form-group{{ $errors->has('isLiveMode') ? ' has-danger' : '' }}">
-                                                        <label class="form-control-label" for="Flutterwave">{{ __('Is
-                                                            live
-                                                            mode?') }}</label>
-                                                        <select name="isLiveMode" class="form-control">
-                                                            <option value="1" {{ $data['isLiveMode']==1 ? 'selected'
-                                                                : '' }}>{{ __('Yes') }}</option>
-                                                            <option value="0" {{ $data['isLiveMode']==0 ? 'selected'
-                                                                : '' }}>{{ __('No') }}</option>
-                                                        </select>
-
-                                                        @if ($errors->has('isLiveMode'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('isLiveMode') }}</strong>
-                                                        </span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="form-group">
-                                                        <div class="text-center">
-                                                            <a type="submit"
-                                                                href="https://developer.flutterwave.com/docs/quickstart/"
-                                                                target="_blank" class="btn btn-primary mt-4 rtl_btn">{{
-                                                                __('Help') }}</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary mt-4 rtl_btn">{{ __('Save')

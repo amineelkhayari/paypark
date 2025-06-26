@@ -442,7 +442,7 @@ class WebsiteController extends Controller
     }
     public function getCheckout()
     {
-        $adminsetting = AdminSetting::first(['paypal_status', 'razorpay_status', 'stripe_status', 'flutterwave_status', 'stripe_public', 'razorpay_key', 'flutterwave_key', 'currency', 'paypal_sandbox']);
+        $adminsetting = AdminSetting::first(['paypal_status', 'stripe_status', 'stripe_public', 'currency', 'paypal_sandbox']);
         $vehicles = UserVehicle::where('user_id', Auth::guard('appuser')->user()->id)->get();
         $parkingspace = session('parkingspace');
         $arrivingtime = Carbon::parse($parkingspace['arriving_time']);

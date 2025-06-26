@@ -545,19 +545,6 @@ function parkingbooking(formData) {
 }
 
 
-function RazorPayPayment() {
-    var $payBtn = $('#paybtn');
-    var total = $payBtn.data('total');
-    var options = {
-        key: $('input[name="razorpay_key"]').val(),
-        amount: total * 100,
-        description: '',
-        currency: currency,
-        handler: demoSuccessHandler
-    }
-    window.r = new Razorpay(options);
-    r.open();
-}
 
 function padStart(str) {
     return ('0' + str).slice(-2)
@@ -740,64 +727,6 @@ function stripeResponseHandler(result, $form, amount) {
     }
 }
 
-
-function makePayment() {
-    document.getElementById('loader').style.display = 'block';
-    document.getElementById('loader').style.display = 'flex';
-    var $payBtn = $('#paybtn');
-    var total = $payBtn.data('total');
-    var currency = $('input[name=currency]').val();
-    FlutterwaveCheckout({
-        public_key: $('input[name=flutterwave_key]').val(),
-        tx_ref: Math.floor(Math.random() * (1000 - 9999 + 1)) + 9999,
-        amount: total,
-        currency: currency,
-        payment_options: " ",
-        customer: {
-            email: $('input[name=email]').val(),
-            phone_number: $('input[name=phone_no]').val(),
-            name: $('input[name=name]').val(),
-        },
-
-        callback: function (data) {
-            if (data.status == 'successful') {
-                var requestData = {
-                    total_amount: total,
-                    arriving_time: $('input[name="arriving_time"]').val(),
-                    leaving_time: $('input[name="leaving_time"]').val(),
-                    owner_id: $('input[name="owner_id"]').val(),
-                    space_id: $('input[name="space_id"]').val(),
-                    user_id: $('input[name="user_id"]').val(),
-                    vehicle_id: $('input[name="vehicle_id"]').val(),
-                    slot_id: $('input[name="slot_id"]').val(),
-                    payment_token: data.transaction_id,
-                    payment_type: 'FLUTTERWAVE',
-                    payment_status: 1
-                };
-
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: '/billing',
-                    type: 'POST',
-                    data: requestData,
-                    success: function (data) {
-                        document.getElementById('loader').style.display = 'none';
-                        $("#success_msg").html(data.message);
-                    },
-                    error: function (xhr, status, error) {
-
-                    }
-                });
-            }
-        },
-        customizations: {
-            title: $('input[name=name]').val(),
-            description: "Paypark Payment",
-        },
-    });
-}
 
 
 function activeClass(id) {

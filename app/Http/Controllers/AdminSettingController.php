@@ -237,18 +237,14 @@ class AdminSettingController extends Controller
         $request->validate([
             'stripe_secret' => 'bail|required_if:stripe_status,1',
             'stripe_public' => 'bail|required_if:stripe_status,1',
-            'razorpay_key' => 'bail|required_if:razorpay_status,1',
             'paypal_sandbox' => 'bail|required_if:paypal_status,1',
             'paypal_production' => 'bail|required_if:paypal_status,1',
             'paypal_client_id' => 'bail|required_if:paypal_status,1',
             'paypal_secret_key' => 'bail|required_if:paypal_status,1',
-            'flutterwave_key' => 'bail|required_if:flutterwave_status,1',
         ]);
         $data = $request->all();
         $data['stripe_status'] = $request->has('stripe_status') ? 1 : 0;
-        $data['razorpay_status'] = $request->has('stripe_status') ? 1 : 0;
-        $data['paypal_status'] = $request->has('stripe_status') ? 1 : 0;
-        $data['flutterwave_status'] = $request->has('stripe_status') ? 1 : 0;
+        $data['paypal_status'] = $request->has('paypal_status') ? 1 : 0;
         AdminSetting::first()->update($data);
         return redirect('setting')->withStatus(__('Payment setting updated successfully.'));
     }
@@ -379,36 +375,7 @@ class AdminSettingController extends Controller
 
         //return redirect('admin/setting');
     }
-    // public function updateENV($data)
-    // {
-    //     $envFile = app()->environmentFilePath();
-    //     if ($envFile) {
-    //         $str = file_get_contents($envFile);
-    //         if (count($data) > 0) {
-    //             foreach ($data as $envKey => $envValue) {
-    //                 $str .= "\n"; // In case the searched variable is in the last line without \n
-    //                 $keyPosition = strpos($str, "{$envKey}=");
-    //                 $endOfLinePosition = strpos($str, "\n", $keyPosition);
-    //                 $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
-    //                 // If key does not exist, add it
-    //                 if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
-    //                     $str .= "{$envKey}={$envValue}\n";
-    //                 } else {
-    //                     $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
-    //                 }
-    //             }
-    //         }
-    //         $str = substr($str, 0, -1);
-    //         try {
-    //             if (!file_put_contents($envFile, $str)) {
-    //                 return false;
-    //             }
-    //             return true;
-    //         } catch (Exception $e) {
-    //             return false;
-    //         }
-    //     }
-    // }
+
 
     public function updateENV($data)
     {

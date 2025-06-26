@@ -90,33 +90,17 @@ $(document).ready(function ()
         if(this.value == 'stripe')
         {
             $('.stripeCard').show(500);
-            $('.flutterwaveCard').hide(500);
-            $('.razorCard').hide(500);
             $('.paypalCard').hide(500);
             StripePayment();
         }
-        if(this.value == 'razorpay')
-        {
-            $('.razorCard').show(500);
-            $('.stripeCard').hide(500);
-            $('.flutterwaveCard').hide(500);
-            $('.paypalCard').hide(500);
-        }
+       
         if(this.value == 'paypal')
         {
             $('.paypalCard').show(500);
-            $('.razorCard').hide(500);
             $('.stripeCard').hide(500);
-            $('.flutterwaveCard').hide(500);
             paypalPayment();
         }
-        if(this.value == 'flutterwave')
-        {
-            $('.flutterwaveCard').show(500);
-            $('.paypalCard').hide(500);
-            $('.razorCard').hide(500);
-            $('.stripeCard').hide(500);
-        }
+        
     });
 
     // datatable start
@@ -227,22 +211,6 @@ function stripeResponseHandler(status, response)
     }
 }
 
-function RazorPayPayment()
-{
-    var options =
-    {
-        key: $('input[name="razor_key"]').val(),
-        amount: amount * 100,
-        description: '',
-        currency: currency,
-        handler: demoSuccessHandler
-    }
-    window.r = new Razorpay(options);
-    document.getElementById('paybtn').onclick = function ()
-    {
-        r.open();
-    }
-}
 
 function padStart(str) {
     return ('0' + str).slice(-2)
@@ -324,35 +292,7 @@ function paypalPayment()
     }
 }
 
-function makePayment()
-{
-    FlutterwaveCheckout({
-      public_key: $('input[name=flutterwave_key]').val(),
-      tx_ref: Math.floor(Math.random() * (1000 - 9999 + 1) ) + 9999,
-      amount: amount,
-      currency: currency,
-      payment_options: " ",
-      customer: {
-        email: $('input[name=email]').val(),
-        phone_number: $('input[name=phone]').val(),
-        name: $('input[name=name]').val(),
-      },
-      callback: function (data)
-      {
-        if (data.status == 'successful')
-        {
-            console.log("data",data);
-            formData.append('payment_token',data.transaction_id);
-            formData.append('payment_type','FLUTTERWAVE');
-            subscription();
-        }
-      },
-      customizations: {
-        title: $('input[name=name]').val(),
-        description: "Subscription Payment",
-      },
-    });
-}
+
 
 function modelOpen()
 {

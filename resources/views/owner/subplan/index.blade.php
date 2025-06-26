@@ -131,24 +131,14 @@
                         <label class="custom-control-label" for="customRadio1">{{ __('Stripe') }}</label>
                     </div>
                     @endif
-                    @if ($adminSettings['razorpay_status'])
-                    <div class="custom-control custom-radio mb-3">
-                        <input name="paymentRadio" class="custom-control-input" value="razorpay" id="customRadio2" type="radio">
-                        <label class="custom-control-label" for="customRadio2">{{ __('Razorpay') }}</label>
-                    </div>
-                    @endif
+                    
                     @if ($adminSettings['paypal_status'])
                     <div class="custom-control custom-radio mb-3">
                         <input name="paymentRadio" class="custom-control-input" value="paypal" id="customRadio3" type="radio">
                         <label class="custom-control-label" for="customRadio3">{{ __('Paypal') }}</label>
                     </div>
                     @endif
-                    @if ($adminSettings['flutterwave_status'])
-                    <div class="custom-control custom-radio mb-3">
-                        <input name="paymentRadio" class="custom-control-input" value="flutterwave" id="customRadio4" type="radio">
-                        <label class="custom-control-label" for="customRadio4">{{ __('Flutterwave') }}</label>
-                    </div>
-                    @endif
+                   
                 </div>
                 <div class="col-md-8">
                     <div class="card mt-2 stripeCard hide">
@@ -199,19 +189,9 @@
                         </div>
                     </div>
 
-                    <div class="card mt-2 razorCard hide">
-                        <input type="hidden" name="razor_key" value="{{ $adminSettings['razorpay_key'] }}">
-                        <div class="card-body text-center">
-                            <button class="btn-sm btn-primary" name="RazorBtn" id="paybtn" onclick="RazorPayPayment()">{{ __('Pay with Razorpay') }}</button>
-                        </div>
-                    </div>
+                   
 
-                    <div class="card mt-2 flutterwaveCard hide">
-                        <input type="hidden" name="flutterwave_key" value="{{ $adminSettings['flutterwave_key'] }}">
-                        <div class="card-body text-center">
-                            <button class="btn-sm btn-primary" onclick="makePayment()">{{ __('Pay with Flutterwave') }}</button>
-                        </div>
-                    </div>
+                   
 
                     <div class="card mt-2 paypalCard hide">
                         <div class="paypal_row_body"></div>
@@ -239,6 +219,4 @@
 </script>
 <script src="https://js.stripe.com/v1/"></script>
 <script src="https://www.paypal.com/sdk/js?client-id={{ $adminSettings->paypal_sandbox }}&currency={{ $adminSettings->currency }}" data-namespace="paypal_sdk"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://checkout.flutterwave.com/v3.js"></script>
 @endpush
