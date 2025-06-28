@@ -158,16 +158,25 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>{{__('Card Information')}}</label>
-                                            <input type="text" class="card-number required form-control" title="please input only number." pattern="[0-9]{16}" name="card-number" placeholder="1234 1234 1234 1234" title="Card Number" required />
+                                            {{-- <input type="text" class="card-number required form-control" title="please input only number." pattern="[0-9]{16}" name="card-number" placeholder="1234 1234 1234 1234" title="Card Number" required /> --}}
+                                             <div class="form-group">
+                                                        <div id="card-number"></div>
+                                                    </div>
                                             <div class="row mt-2">
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="expiry-date required form-control" name="expiry-date" title="Expiration date" title="please Enter data in MM/YY format." pattern="(0[1-9]|10|11|12)/[0-9]{2}$" placeholder="MM/YY" required />
+                                                    {{-- <input type="text" class="expiry-date required form-control" name="expiry-date" title="Expiration date" title="please Enter data in MM/YY format." pattern="(0[1-9]|10|11|12)/[0-9]{2}$" placeholder="MM/YY" required /> --}}
+                                                    <div class="form-group">
+                                                        <div id="card-expiry"></div>
+                                                    </div>
                                                     <input type="hidden" class="card-expiry-month required form-control" name="card-expiry-month" />
                                                     <input type="hidden" class="card-expiry-year required form-control" name="card-expiry-year" />
                                                 </div>
 
                                                 <div class="col-lg-6 pl-0">
-                                                    <input type="text" class="card-cvc required form-control" title="please input only number." pattern="[0-9]{3}" name="card-cvc" placeholder="CVC" title="CVC" required />
+                                                    {{-- <input type="text" class="card-cvc required form-control" title="please input only number." pattern="[0-9]{3}" name="card-cvc" placeholder="CVC" title="CVC" required /> --}}
+                                                <div class="form-group">
+                                                    <div id="card-cvc"></div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -206,6 +215,7 @@
 
 @push('js')
 <script>
+    
     $(document).ready(function() {
         $('#btn').hide();
         $('.radioBtn').change(function() {
@@ -217,6 +227,6 @@
         });
     });
 </script>
-<script src="https://js.stripe.com/v1/"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script src="https://www.paypal.com/sdk/js?client-id={{ $adminSettings->paypal_sandbox }}&currency={{ $adminSettings->currency }}" data-namespace="paypal_sdk"></script>
 @endpush
