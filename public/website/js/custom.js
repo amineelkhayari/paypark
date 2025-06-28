@@ -544,50 +544,6 @@ function parkingbooking(formData) {
     });
 }
 
-
-
-function padStart(str) {
-    return ('0' + str).slice(-2)
-}
-
-function demoSuccessHandler(transaction) {
-
-    var total = parseFloat(transaction.amount) / 100;
-    var $payBtn = $('#paybtn');
-    var requestData = {
-        payment_token: transaction.razorpay_payment_id,
-        payment_type: 'RAZORPAY',
-        payment_status: 1,
-        total_amount: $payBtn.data('total'),
-        arriving_time: $('input[name="arriving_time"]').val(),
-        leaving_time: $('input[name="leaving_time"]').val(),
-        owner_id: $('input[name="owner_id"]').val(),
-        space_id: $('input[name="space_id"]').val(),
-        user_id: $('input[name="user_id"]').val(),
-        vehicle_id: $('input[name="vehicle_id"]').val(),
-        slot_id: $('input[name="slot_id"]').val()
-    };
-
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/billing',
-        type: 'POST',
-        data: requestData,
-        success: function (data) {
-            if (data.success == true) {
-                window.location = data.redirect_location;
-                $("#booking_msg").html(data.message);
-                document.getElementById('loader').style.display = 'none';
-            }
-        },
-        error: function (xhr, status, error) {
-
-        }
-    });
-}
-
 function paypalPayment() {
     var $payBtn = $('#paybtn');
     var total = $payBtn.data('total');

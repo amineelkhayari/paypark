@@ -232,22 +232,6 @@ function stripeResponseHandler(result) {
 }
 
 
-function padStart(str) {
-    return ('0' + str).slice(-2)
-}
-
-function demoSuccessHandler(transaction) {
-    $("#paymentDetail").removeAttr('style');
-    $('#paymentID').text(transaction.razorpay_payment_id);
-    var paymentDate = new Date();
-    $('#paymentDate').text(
-        padStart(paymentDate.getDate()) + '.' + padStart(paymentDate.getMonth() + 1) + '.' + paymentDate.getFullYear() + ' ' + padStart(paymentDate.getHours()) + ':' + padStart(paymentDate.getMinutes())
-    );
-    formData.append('payment_token', transaction.razorpay_payment_id);
-    formData.append('payment_type', 'RAZORPAY');
-    subscription();
-}
-
 function subscription() {
     console.log("subscription form data", formData.entries)
     $.ajax({

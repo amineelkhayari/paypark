@@ -227,11 +227,5 @@
         
     });
 </script>
-<script>
-    var order_no = "{!! isset($parkingBooking) ? $parkingBooking->order_no : '' !!}";
-
-    // Call the demoSuccessHandler function with the session data as parameters
-    demoSuccessHandler(order_no);
-</script>
 
 @endsection
