@@ -51,7 +51,8 @@ Route::middleware(['XssSanitizer'])->group(function () {
         return redirect('installer');
     });
 
-    Route::any('installer', [AdminSettingController::class, 'installer']);
+    // Route::any('installer', [AdminSettingController::class, 'installer']);
+    Route::any('/installer', [AdminSettingController::class, 'installer'])->name('installer');
 
     Route::post('saveEnvData', [AdminSettingController::class, 'saveEnvData']);
     Route::post('saveAdminData', [AdminSettingController::class, 'saveAdminData']);
@@ -89,7 +90,7 @@ Route::middleware(['XssSanitizer'])->group(function () {
         Route::resource('languages', 'LanguageController');
         Route::put('setting/payments', [AdminSettingController::class, 'updatePayments'])->name('setting.payments');
         Route::put('setting/general_setting', [AdminSettingController::class, 'updateGeneralSetting'])->name('setting.generalsetting');
-      
+
         Route::post('/block_parkingOwner/{id}', [AdminSettingController::class, 'blockParkingOwner']);
     });
     Route::get('selectlanguage/{id}', [LanguageController::class, 'SelectLanguage']);

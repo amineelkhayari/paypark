@@ -262,7 +262,8 @@ INSERT INTO `currency` (`id`, `country`, `currency`, `code`, `symbol`) VALUES
 (128, 'Venezuela', 'Bolivares Fuertes', 'VEF', 'Bs'),
 (129, 'Vietnam', 'Dong', 'VND', '₫\r\n'),
 (130, 'Yemen', 'Rials', 'YER', '﷼'),
-(131, 'Zimbabwe', 'Zimbabwe Dollars', 'ZWD', 'Z$');
+(131, 'Zimbabwe', 'Zimbabwe Dollars', 'ZWD', 'Z$'),
+(132, 'Morocco', 'Moroccan Dirham', 'MAD', 'د.م.');
 
 -- --------------------------------------------------------
 
@@ -277,6 +278,15 @@ CREATE TABLE `facilities` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+INSERT INTO `facilities` (`id`,`title`, `image`) VALUES
+(1,'CCTV Surveillance', 'security-camera.png'),
+(2,'Covered Parking', 'covered.png'),
+(3,'EV Charging Station', 'electric-van.png'),
+(4,'Valet Parking', 'valet-parking.png'),
+(5,'24/7 Access', 'time.png'),
+(6,'Motorbike Parking', 'parking.png'),
+(7,'Payment via App', 'smartphone.png');
+
 
 -- --------------------------------------------------------
 
@@ -314,7 +324,7 @@ CREATE TABLE `language` (
 --
 
 INSERT INTO `language` (`id`, `name`, `direction`, `image`, `json_file`, `status`, `created_at`) VALUES
-(1, 'Francais', 'ltr', 'english.png', 'francais.json', 1, '2022-04-06 04:50:38'),
+(1, 'Francais', 'ltr', 'france.png', 'fr.json', 1, '2022-04-06 04:50:38'),
 (2, 'arabic', 'rtl', 'arabic.png', 'arabic.json', 1, '2022-04-06 04:50:24');
 
 -- --------------------------------------------------------
@@ -333,15 +343,15 @@ CREATE TABLE `migrations` (
 -- Dumping data for table `migrations`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
-(5, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
-(6, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
-(7, '2016_06_01_000004_create_oauth_clients_table', 2),
-(8, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
+-- INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+-- (1, '2014_10_12_000000_create_users_table', 1),
+-- (2, '2014_10_12_100000_create_password_resets_table', 1),
+-- (3, '2019_08_19_000000_create_failed_jobs_table', 1),
+-- (4, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+-- (5, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+-- (6, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+-- (7, '2016_06_01_000004_create_oauth_clients_table', 2),
+-- (8, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
 
 -- --------------------------------------------------------
 
@@ -538,6 +548,15 @@ CREATE TABLE `parking_owner` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+INSERT INTO `parking_owner` 
+(`id`, `name`, `email`, `phone_no`, `image`, `password`, `verified`, `status`, `device_token`, `subscription_status`, `created_at`, `updated_at`) 
+VALUES
+(1, 'Owner One', 'owner1@gmail.com', '0612345678', 'default.jpg', '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', 1, 1, NULL, 1, NOW(), NOW()),
+(2, 'Owner Two', 'owner2@gmail.com', '0698765432', 'default.jpg', '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', 1, 1, NULL, 1, NOW(), NOW()),
+(3, 'Owner Three', 'owner3@gmail.com', '0623456789', 'default.jpg', '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', 1, 1, NULL, 1, NOW(), NOW()),
+(4, 'Owner Four', 'owner4@gmail.com', '0678901234', 'default.jpg', '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', 1, 1, NULL, 1, NOW(), NOW()),
+(5, 'Owner Five', 'owner5@gmail.com', '0609876543', 'default.jpg', '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', 1, 1, NULL, 1, NOW(), NOW());
+
 -- --------------------------------------------------------
 
 --
@@ -591,6 +610,20 @@ CREATE TABLE `parking_space` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+INSERT INTO `parking_space`
+(`id`, `owner_id`, `vehicle_types`, `title`, `description`, `facilities`, `address`, `lat`, `lng`, `price_par_hour`, `phone_number`, `open_time`, `close_time`, `available_all_day`, `offline_payment`, `verified`, `status`, `created_at`, `updated_at`)
+VALUES
+(1, 1, '[1,2]', 'Casablanca Central Parking', 'Secure parking near the city center with CCTV and 24/7 access.', '[1,7]', '100 Boulevard Mohammed V, Casablanca, Morocco', 33.589886, -7.603869, 15.0, '0612345678', '07:00:00', '22:00:00', 0, 1, 1, 1, NOW(), NOW()),
+(2, 2, '[1]', 'Rabat Mall Parking', 'Covered parking lot with valet service.', '[4,5]', '45 Avenue Hassan II, Rabat, Morocco', 34.020882, -6.841650, 12.0, '0698765432', '08:00:00', '23:00:00', 0, 0, 1, 1, NOW(), NOW()),
+(3, 3, '[3,2]', 'Marrakech Neighborhood Parking', 'Affordable parking with disabled access.', '[3,6]', '789 Derb El Ferrane, Marrakech, Morocco', 31.629472, -7.981084, 5.0, '0623456789', NULL, NULL, 1, 0, 0, 1, NOW(), NOW()),
+(4, 4, '[1,4]', 'Tangier Port Parking', 'Spacious parking for cars and trucks near the port.', '[1,6]', '12 Port de Tanger, Tangier, Morocco', 35.774335, -5.803867, 18.0, '0654321987', '06:00:00', '21:00:00', 0, 1, 1, 1, NOW(), NOW()),
+(5, 5, '[2]', 'Agadir Motorbike Parking', 'Safe and secure motorbike parking.', '[1]', '22 Boulevard Hassan II, Agadir, Morocco', 30.427754, -9.598107, 7.0, '0601234567', '08:00:00', '20:00:00', 0, 0, 1, 1, NOW(), NOW()),
+(6, 1, '[1,3]', 'Fes Old Town Parking', 'Parking near the old city, suitable for cars and bicycles.', '[3,7]', '15 Place Seffarine, Fes, Morocco', 34.040370, -5.007040, 8.0, '0612345678', '07:30:00', '22:30:00', 0, 1, 1, 1, NOW(), NOW()),
+(7, 2, '[1,2,3]', 'Casablanca Airport Parking', 'Parking for all vehicle types near the airport.', '[1,4,7]', 'Route de l Aéroport, Casablanca, Morocco', 33.607765, -7.630746, 20.0, '0698765432', '00:00:00', '23:59:59', 1, 0, 1, 1, NOW(), NOW()),
+(8, 3, '[1]', 'Meknes City Center Parking', 'Convenient parking spot with security guard.', '[6]', '50 Avenue Moulay Ismail, Meknes, Morocco', 33.893462, -5.547720, 10.0, '0623456789', '08:00:00', '22:00:00', 0, 0, 1, 1, NOW(), NOW()),
+(9, 4, '[4,5]', 'Oujda Truck & Bus Parking', 'Large parking area for trucks and buses.', '[5,6]', '100 Avenue Mohammed V, Oujda, Morocco', 34.682868, -1.907192, 25.0, '0654321987', '06:00:00', '22:00:00', 0, 1, 1, 1, NOW(), NOW()),
+(10, 5, '[2]', 'Safi Motorbike Parking', 'Secure motorbike parking with CCTV.', '[1]', '30 Rue de la Plage, Safi, Morocco', 32.299999, -9.233333, 6.0, '0601234567', '07:00:00', '21:00:00', 0, 0, 1, 1, NOW(), NOW());
+
 -- --------------------------------------------------------
 
 --
@@ -602,6 +635,36 @@ CREATE TABLE `password_resets` (
   `token` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+
+--
+-- Table structure for table `space_zone`
+--
+
+CREATE TABLE `space_zone` (
+  `id` int(11) NOT NULL,
+  `space_id` int(11) NOT NULL,
+  `owner_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+INSERT INTO `space_zone` (`id`, `space_id`, `owner_id`, `name`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'Zone A', 1, NOW(), NOW(), NULL),
+(2, 1, 1, 'Zone B', 1, NOW(), NOW(), NULL),
+(3, 2, 2, 'Zone A', 1, NOW(), NOW(), NULL),
+(4, 3, 3, 'Main Zone', 1, NOW(), NOW(), NULL),
+(5, 4, 4, 'Truck Zone', 1, NOW(), NOW(), NULL),
+(6, 5, 5, 'Motorbike Zone', 1, NOW(), NOW(), NULL),
+(7, 6, 1, 'West Wing', 1, NOW(), NOW(), NULL),
+(8, 7, 2, 'Airport Entry Zone', 1, NOW(), NOW(), NULL),
+(9, 8, 3, 'Central Zone', 1, NOW(), NOW(), NULL),
+(10, 9, 4, 'Bus Lane Zone', 1, NOW(), NOW(), NULL),
+(11, 10, 5, 'Zone 1', 1, NOW(), NOW(), NULL);
 
 -- --------------------------------------------------------
 
@@ -636,24 +699,54 @@ CREATE TABLE `space_slot` (
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+INSERT INTO `space_slot` (`id`, `zone_id`, `space_id`, `name`, `position`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'Slot A', 1, NOW(), NOW(), NULL),
+(2, 1, 1, 'Slot B', 2, NOW(), NOW(), NULL),
+(3, 1, 1, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(4, 2, 1, 'Slot A', 1, NOW(), NOW(), NULL),
+(5, 2, 1, 'Slot B', 2, NOW(), NOW(), NULL),
+(6, 2, 1, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(7, 3, 2, 'Slot A', 1, NOW(), NOW(), NULL),
+(8, 3, 2, 'Slot B', 2, NOW(), NOW(), NULL),
+(9, 3, 2, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(10, 4, 3, 'Slot A', 1, NOW(), NOW(), NULL),
+(11, 4, 3, 'Slot B', 2, NOW(), NOW(), NULL),
+(12, 4, 3, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(13, 5, 4, 'Slot A', 1, NOW(), NOW(), NULL),
+(14, 5, 4, 'Slot B', 2, NOW(), NOW(), NULL),
+(15, 5, 4, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(16, 6, 5, 'Slot A', 1, NOW(), NOW(), NULL),
+(17, 6, 5, 'Slot B', 2, NOW(), NOW(), NULL),
+(18, 6, 5, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(19, 7, 6, 'Slot A', 1, NOW(), NOW(), NULL),
+(20, 7, 6, 'Slot B', 2, NOW(), NOW(), NULL),
+(21, 7, 6, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(22, 8, 7, 'Slot A', 1, NOW(), NOW(), NULL),
+(23, 8, 7, 'Slot B', 2, NOW(), NOW(), NULL),
+(24, 8, 7, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(25, 9, 8, 'Slot A', 1, NOW(), NOW(), NULL),
+(26, 9, 8, 'Slot B', 2, NOW(), NOW(), NULL),
+(27, 9, 8, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(28, 10, 9, 'Slot A', 1, NOW(), NOW(), NULL),
+(29, 10, 9, 'Slot B', 2, NOW(), NOW(), NULL),
+(30, 10, 9, 'Slot C', 3, NOW(), NOW(), NULL),
+
+(31, 11, 10, 'Slot A', 1, NOW(), NOW(), NULL),
+(32, 11, 10, 'Slot B', 2, NOW(), NOW(), NULL),
+(33, 11, 10, 'Slot C', 3, NOW(), NOW(), NULL);
+
+
 -- --------------------------------------------------------
 
---
--- Table structure for table `space_zone`
---
-
-CREATE TABLE `space_zone` (
-  `id` int(11) NOT NULL,
-  `space_id` int(11) NOT NULL,
-  `owner_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `subscription`
@@ -1292,7 +1385,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'PayPark Admin', 'amine@gmail.com', NULL, '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', NULL, '2025-10-18 07:42:51', '2025-10-11 06:51:16');
+(1, 'Admin Parking', 'admin@gmail.com', NULL, '$2y$10$dmy5YeHV4U42AAJjc72BmO0.9TnouPQxtcf3FnIvmEmfZZH6M9yya', NULL, '2025-10-18 07:42:51', '2025-10-11 06:51:16');
 
 -- --------------------------------------------------------
 
@@ -1326,6 +1419,10 @@ CREATE TABLE `vehicle_type` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+INSERT INTO `vehicle_type` (`id`, `title`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Car', 'car.png', 1, NOW(), NOW()),
+(2, 'Motorcycle', 'transport.png', 1, NOW(), NOW()),
+(3, 'Bus', 'bus.png', 1, NOW(), NOW());
 
 --
 -- Indexes for dumped tables

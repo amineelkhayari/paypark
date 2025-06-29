@@ -46,8 +46,8 @@
          $lang_name = Auth::user()->language;
          $lang_image = App\Language::where('name', $lang_name)->first()->image;
          } else {
-         $lang_name = 'English';
-         $lang_image = "English.png";
+         $lang_name = 'Francais';
+         $lang_image = "france.png";
          }
          } else {
          $icon = App\Language::where('name',session('locale'))->first();
@@ -55,8 +55,8 @@
          $lang_name = session('locale');
          $lang_image = $icon->image;
          } else {
-         $lang_name = 'English';
-         $lang_image = "English.png";
+         $lang_name = 'Francais';
+         $lang_image = "france.png";
          }
          }
          $language = App\Language::where('status',1)->get();
@@ -66,7 +66,7 @@
              <img src="{{ asset('upload')}}/{{session()->get('lngimage')}}" class="w-[24px] h-[24px] mr-2" alt="">
              <h6 class="font-mulish font-normal text-base text-[#404F65] capitalize">{{app()->getLocale()}}</h6>
              @else
-             <img src="{{ asset('argon') }}/img/theme/english.png" class="w-5 h-5 mr-2 rounded-full" alt="">
+             <img src="{{ asset('argon') }}/img/theme/france.png" class="w-5 h-5 mr-2 rounded-full" alt="">
              <h6 class="font-mulish font-normal text-base text-[#404F65] capitalize">{{ __('English')}}</h6>
              @endif
          </button>

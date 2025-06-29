@@ -341,6 +341,8 @@ class AdminSettingController extends Controller
         $envdata['DB_DATABASE'] = $request->db_name;
         $envdata['DB_USERNAME'] = $request->db_user;
         $envdata['DB_PASSWORD'] = $request->db_pass;
+        $envdata['APP_INSTALLED'] = true;
+
         $result = $this->updateENV($envdata);
 
         if ($result) {
