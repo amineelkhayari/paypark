@@ -16,7 +16,12 @@ class RedirectIfNotInstalled
      */
     public function handle(Request $request, Closure $next)
     {
-         if (!config('app.installed') && !$request->is('installer*')) {
+        $allowedRoutes = [
+        'installer',
+        'saveEnvData',
+        'saveAdminData',
+    ];
+         if (!config('app.installed') && !$request->is($allowedRoutes)) {
             return redirect()->route('installer');
         }
         
