@@ -86,6 +86,7 @@ class AdminSettingController extends Controller
         $data['DB_DATABASE'] = $request->db_name;
         $data['DB_USERNAME'] = $request->db_user;
         $data['DB_PASSWORD'] = $request->db_pass;
+        $data['APP_INSTALLED'] = $request->db_pass;
         $result = $this->updateENV($data);
         if ($result) {
             $d = User::first();
@@ -381,6 +382,9 @@ class AdminSettingController extends Controller
 
     public function updateENV($data)
     {
+        Artisan::call('config:clear');
+        Artisan::call('optimize:clear');
+        Artisan::call('cache:clear');
         $envFile = app()->environmentFilePath();
 
         if (!$envFile || !file_exists($envFile)) {
@@ -410,6 +414,7 @@ class AdminSettingController extends Controller
 
             file_put_contents($envFile, $str);
             Artisan::call('config:clear');
+            Artisan::call('optimize:clear');
             Artisan::call('cache:clear');
             return true;
         } catch (\Exception $e) {

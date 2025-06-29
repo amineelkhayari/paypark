@@ -362,41 +362,19 @@ switch ($step) {
         var formData = new FormData($('#admin-detal-form')[0]);
         $.ajax({
             type: "POST",
-            url: name + "saveEnvData",
+            url: name + "saveAdminData",
             data: formData,
             cache: false,
             contentType: false,
             processData: false,
             success: function (result) {
                 if (result.success == true) {
-                    console.log('result', result, name + "saveAdminData");
-                    $.ajax(
-                        {
-                            type: "POST",
-                            url: name + "saveAdminData",
-                            data: formData,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function (result) {
-                                console.log('result', result);
+                    
+                    window.location.replace(result.data);
 
-                                if (result.success == true) {
-                                    console.log(result);
-                                    window.location.replace(result.data);
-                                }
-                                else {
-                                    alert("error from saveadmindata:" + result.message);
-                                }
-                            },
-                            error: function (err) {
-                                console.log("second request",err)
-                                alert("error second part");
-                            }
-                        });
-                }
+                 }
                 else {
-                    alert("if fiest"+result.message);
+                    alert(result.message);
                 }
             },
             error: function (err) {
