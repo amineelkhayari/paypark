@@ -86,7 +86,7 @@ class AdminSettingController extends Controller
         $data['DB_DATABASE'] = $request->db_name;
         $data['DB_USERNAME'] = $request->db_user;
         $data['DB_PASSWORD'] = $request->db_pass;
-        $data['APP_INSTALLED'] = $request->db_pass;
+        $data['APP_INSTALLED'] = true;
         $result = $this->updateENV($data);
         if ($result) {
             $d = User::first();

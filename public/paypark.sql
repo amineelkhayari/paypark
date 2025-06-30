@@ -792,6 +792,14 @@ CREATE TABLE `subscription_buy` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+INSERT INTO `subscription_buy` 
+(`id`, `owner_id`, `subscription_id`, `price`, `duration`, `start_at`, `end_at`, `payment_status`, `status`, `payment_token`, `payment_type`, `created_at`, `updated_at`) 
+VALUES
+(1, 1, 2, 150.00, 1, '2025-06-01', '2025-07-01', 1, 1, 'tok_001', 'credit_card', NOW(), NOW()),
+(2, 2, 3, 50.00, 50, '2025-06-01', '2025-08-20', 1, 1, 'tok_002', 'paypal', NOW(), NOW()),
+(3, 3, 2, 800.00, 6, '2025-01-01', '2025-07-01', 1, 1, 'tok_003', 'stripe', NOW(), NOW()),
+(4, 4, 1, 0.00, 0, '2025-06-01', '2025-12-31', 1, 1, NULL, 'free', NOW(), NOW()),
+(5, 5, 2, 150.00, 1, '2025-06-15', '2025-07-15', 1, 1, 'tok_004', 'credit_card', NOW(), NOW());
 
 -- --------------------------------------------------------
 
