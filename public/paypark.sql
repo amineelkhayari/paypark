@@ -291,13 +291,15 @@ CREATE TABLE `facilities` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 INSERT INTO `facilities` (`id`,`title`, `image`) VALUES
-(1,'CCTV Surveillance', 'security-camera.png'),
-(2,'Covered Parking', 'covered.png'),
-(3,'EV Charging Station', 'electric-van.png'),
-(4,'Valet Parking', 'valet-parking.png'),
-(5,'24/7 Access', 'time.png'),
-(6,'Motorbike Parking', 'parking.png'),
-(7,'Payment via App', 'smartphone.png');
+(1,'24 Hours Open', 'time.png'),
+(2,'CCTV Cameras', 'Cameras.png'),
+(3,'EV Charging', 'Charging.png'),
+(4,'24x7 Security', 'Security.png'),
+(5,'Wheel-chair Accessibility', 'Accessibility.png'),
+(6,'Washing & Cleaning', 'Cleaning.png'),
+(7,'Mechanic', 'Mechanic.png'),
+(8,'Servicing', 'Servicing.png');
+
 
 
 -- --------------------------------------------------------
