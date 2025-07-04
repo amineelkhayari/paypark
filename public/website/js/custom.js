@@ -547,7 +547,9 @@ function parkingbooking(formData) {
 function paypalPayment() {
     var $payBtn = $('#paybtn');
     var total = $payBtn.data('total');
-
+    alert("totla "+parseFloat(total))
+    var amount = parseFloat($('input[name=total_amount]').val());
+    alert(amount);
     if (currency != 'INR') {
         $('.paypal_row_body').html('');
         paypal_sdk.Buttons({
@@ -555,7 +557,7 @@ function paypalPayment() {
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: total
+                            value: amount
                         }
                     }]
                 });
@@ -630,6 +632,7 @@ function StripePayment() {
     $('.btn-submit').bind('click', function (e) {
         e.preventDefault();
         var amount = parseFloat($('input[name=total_amount]').val());
+        alert(amount)
         stripe.createToken(cardNumber).then(function (result) {
             stripeResponseHandler(result, $form, amount);
         });

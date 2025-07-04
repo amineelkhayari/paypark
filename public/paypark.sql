@@ -92,7 +92,19 @@ CREATE TABLE `admin_setting` (
 
 INSERT INTO `admin_setting` (`id`, `color`, `logo`, `white_logo`, `favicon`, `bg_img`, `name`, `pp`, `timezone`, `country_code`, `currency_id`, `currency`, `currency_symbol`, `map_key`, `verification`, `notification`, `license_code`, `client_name`, `license_status`, `mail_driver`, `mail_host`, `mail_port`, `mail_username`, `mail_password`, `mail_encryption`, `mail_from_address`, `mail_from_name`, `twilio_id`, `twilio_auth_token`, `twilio_number`, `app_id`, `rest_api_key`, `user_auth_key`, `project_number`, `owner_app_id`, `owner_rest_api_key`, `owner_auth_key`, `guard_app_id`, `guard_rest_api_key`, `guard_auth_key`, `stripe_public`, `stripe_status`, `stripe_secret`, `razorpay_status`, `razorpay_key`, `paypal_status`, `paypal_sandbox`, `paypal_production`, `paypal_client_id`, `paypal_secret_key`, `flutterwave_status`, `flutterwave_key`, `isLiveMode`, `trial_days`, `created_at`, `updated_at`) VALUES
 (1, '#003165', 'logo.png', 'whitelogo.jpg', 'favicon.png', 'background-image.jpg', 'PayPark', '<blockquote class=\"blockquote\"><h2 style=\"margin: 24px 0px; line-height: 48px; font-size: 45px; padding: 0px; font-family: Roboto, Helvetica, Arial, sans-serif; color: rgb(97, 97, 97);\">Privacy Policy</h2><p style=\"margin-right: 0px; margin-bottom: 16px; margin-left: 0px; line-height: 24px; font-family: Nunito, &quot;Segoe UI&quot;, arial; font-size: 14px; padding: 0px;\"><font color=\"#616161\" face=\"Roboto, Helvetica, sans-serif\">Privacy Policy[Developer/Company name] built the [App Name] app as [open source/free/freemium/ad-supported/commercial] app. This SERVICE is provided by [Developer/Company name] [at no cost] and is intended for use. This page is used to inform visitors regarding [my/our] policies regarding the collection, use, and disclosure of Personal Information if anyone decides to use [my/our] Service. If you choose to use [my/our] Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that [I/We] collect is used for providing and improving the Service. [I/We] will not use or share your information with anyone except as described in this Privacy Policy. The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at [App Name] unless otherwise defined in this Privacy Policy. Information Collection and UseFor a better experience, while using our Service, [I/We] may require you to provide us with certain personally identifiable information[add whatever else you collect here, e.g. users name, address, location, pictures] The information that [I/We] request will be [retained on your device and is not collected by [me/us] in any way]/[retained by us and used as described in this privacy policy]. The app does use third-party services that may collect information used to identify you. Link to the privacy policy of third-party service providers used by the app</font></p><p style=\"margin-right: 0px; margin-bottom: 16px; margin-left: 0px; line-height: 24px; font-family: Nunito, &quot;Segoe UI&quot;, arial; font-size: 14px; padding: 0px;\"><font color=\"#616161\" face=\"Roboto, Helvetica, sans-serif\">• Google Play ServicesLog Data[I/We] want to inform you that whenever you use [my/our] Service, in a case of an error in the app [I/We] collect data and information (through third-party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing [my/our] Service, the time and date of your use of the Service, and other statistics.</font></p></blockquote>', 'Asia/Kolkata', '+91', 2, '', '', '', 0, 1, NULL, NULL, '0', '', '', '', '', '', '', NULL, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', 0, '', '', '', '', 0, '', 1, 30, '2022-10-14 10:44:44', '2022-11-02 11:02:15');
+UPDATE `admin_setting`
+SET `timezone` = 'Africa/Casablanca',
+    `country_code` = '+212',
+    `paypal_status`     = 1,
+    `paypal_sandbox`    = 'AcECYSiN3_XvkxZYff2ozu5K0qd84Aj_bH0A1tax0OweU2bnW4D8wrgLhPTOnrrc3UMKmB1fXKnhEvxE',
+    `paypal_production` = 'EA2CcPe5Z8eufcpKucOCtk9t5LqkNRAwUEwCw0rOPBF-HhAVqZLoqrtT7aeJ6xmejobI4SC-qxOMXcUq',
+    `paypal_client_id`  = 'AcECYSiN3_XvkxZYff2ozu5K0qd84Aj_bH0A1tax0OweU2bnW4D8wrgLhPTOnrrc3UMKmB1fXKnhEvxE',
+    `paypal_secret_key` = 'EA2CcPe5Z8eufcpKucOCtk9t5LqkNRAwUEwCw0rOPBF-HhAVqZLoqrtT7aeJ6xmejobI4SC-qxOMXcUq',
+    `stripe_public`     = '_test_51RYuFH2aMivCoGw6yTe0P9ypJehC9MWj9dEIofzBuS0QZN9PfCMcyeD2YS6jUNeDFGwqF67aqC0NvN3Q8DXjRlXZ00XV1mQx73',
+    `stripe_status`     = 1,
+    `stripe_secret`     = '_test_51RYuFH2aMivCoGw6CmFpyILoQfcqwwKMKfuIt6mfvknHdKv4MvfAGv2E6drTgRSeJG14MPF1GSvPi6AeHIM6qicp00BM1D74kz'
 
+WHERE `id` = 1;
 -- --------------------------------------------------------
 
 --
@@ -1866,6 +1878,18 @@ ALTER TABLE `admin_setting` CHANGE `mail_from_address` `mail_from_address` VARCH
 
 CREATE TABLE `faq` (`id` INT(11) NOT NULL , `question` VARCHAR(255) NOT NULL , `answer` TEXT NOT NULL , `created_at` DATETIME NOT NULL , `updated_at` DATETIME NOT NULL ) ENGINE = InnoDB;
 ALTER TABLE `faq` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
+
+INSERT INTO `faq` (`id`, `question`, `answer`, `created_at`, `updated_at`) VALUES
+(1, 'How do I book a parking space?', 'You can book a parking space directly through our website. Simply select your location, choose the date and time, and proceed to checkout.', NOW(), NOW()),
+(2, 'Can I choose a specific parking spot?', 'Some locations allow spot selection, while others assign spots automatically. The system will notify you during the booking process.', NOW(), NOW()),
+(3, 'What happens if I arrive late or leave early?', 'Your booking time is reserved for you. Arriving late or leaving early will not affect your reservation, but we recommend punctuality.', NOW(), NOW()),
+(4, 'Is there a mobile app for managing my parking reservations?', 'Currently, all bookings and payments are managed through our website, which is mobile-friendly.', NOW(), NOW()),
+(5, 'What payment methods are accepted?', 'We accept payments via Stripe (Credit/Debit Cards) and PayPal for secure and flexible transactions.', NOW(), NOW()),
+(6, 'Is it safe to pay on your website?', 'Yes. All payments are securely processed using industry-standard encryption through Stripe and PayPal.', NOW(), NOW()),
+(7, 'Can I get a refund if I cancel my booking?', 'Refunds depend on our cancellation policy. Please check the cancellation terms at the time of booking. Refunds, when applicable, are processed to the original payment method.', NOW(), NOW()),
+(8, 'I paid but didn’t receive a confirmation. What should I do?', 'Please check your spam or promotions folder. If not found, contact our support team with your payment details.', NOW(), NOW()),
+(9, 'Do I need a PayPal account to pay with PayPal?', 'No, you can use PayPal as a guest and pay with a credit or debit card without creating an account.', NOW(), NOW()),
+(10, 'How do I contact customer support?', 'Use the Contact Us section on our website or email us directly at the support address provided. We aim to respond within 24 hours.', NOW(), NOW());
 
 ALTER TABLE `app_users` ADD `email_otp` VARCHAR(6) NOT NULL DEFAULT '123456' AFTER `OTP`;
 ALTER TABLE `app_users` ADD `email_verified` INT(1) NOT NULL DEFAULT '0' AFTER `verified`;

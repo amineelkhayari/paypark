@@ -34,6 +34,8 @@
                     <form action="{{url('/billing')}}" method="post">
                         @csrf
                         @php $total = session()->get('parkingslot')['price_par_hour']; @endphp
+
+                        @php $total = $totalPrice; @endphp
                         <?php
                         $parkingspace = session()->get('parkingspace');
                         $parkingslot = session()->get('parkingslot');
@@ -111,7 +113,7 @@
                             
 
                             
-                            <div class="mt-2 paypalCard hidden">
+                            <div id="paybtn" data-total="{{$total}}" class="mt-2 paypalCard hidden">
                                 <div class="paypal_row_body"></div>
                             </div>
                         </div>
@@ -197,9 +199,13 @@
                     </div>
                     <div class="mb-5">
                         <label for="vehicle" class="font-poppins font-normal text-[#8896AB] text-base tracking-wide">{{__('Select vehicle')}}</label>
+                        <label for="vehicle" class="font-poppins font-normal text-[#8896AB] text-base tracking-wide">{{$brandName}}</label>
                     </div>
                     <div class="bg-[#F7F8F9] rounded-[4px] p-2 w-fit mb-5">
-                        <p class="font-poppins font-normal text-sm text-[#556987] tracking-wide">{{__('Our system working on hour basis')}} <span class="font-medium text-[#4D5F7A] text-base">{{__('$12/hr')}}</span></p>
+                        <p class="font-poppins font-normal text-sm text-[#556987] tracking-wide">
+                            {{__('Our system working on hour basis')}} 
+                            <span class="font-medium text-[#4D5F7A] text-base">{{ $totalPrice }} {{$parkingspace['price_par_hour'].$adminsetting['currency']}}</span>
+                        </p>
                     </div>
                 </form>
             </div>

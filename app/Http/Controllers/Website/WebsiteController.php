@@ -70,8 +70,7 @@ class WebsiteController extends Controller
         if ($validate->fails()) {
             return response()->json($validate->errors(), 400);
         }
-        if (Auth::guard('appuser')->attempt(['email' => $request->email, 'password' => $request->password]))
-        {
+        if (Auth::guard('appuser')->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::guard('appuser')->user();
             if ($user->email_verified == 1) {
                 return response()->json(['success' => true, 'message' => 'Login successfully', 'redirect_location' => url("/")]);
@@ -82,7 +81,7 @@ class WebsiteController extends Controller
             }
         } else {
 
-            return response()->json(['success' => false, 'message' => 'Invalid credentials',"data"=>Auth::guard('appuser')->attempt(['email' => $request->email, 'password' => $request->password])]);
+            return response()->json(['success' => false, 'message' => 'Invalid credentials', "data" => Auth::guard('appuser')->attempt(['email' => $request->email, 'password' => $request->password])]);
         }
     }
 
@@ -368,12 +367,16 @@ class WebsiteController extends Controller
 
         $id = SpaceSlot::pluck('id');
 
+        //dd($id);
+
         $parkingspacedata = Session::get('parkingspace');
+        //dd($parkingspacedata);
         $start =  Carbon::parse($parkingspacedata['arriving_time'])->format('Y-m-d H:i:s');
 
         $end =  Carbon::parse($parkingspacedata['leaving_time'])->format('Y-m-d H:i:s');
 
         $ps = SpaceZone::with(['slots'])->whereIn('space_id', $id)->get();
+        // dd($ps);
         $bookedslot = [];
         foreach ($ps as  $value) {
             foreach ($value['slots'] as $slot) {
@@ -381,21 +384,20 @@ class WebsiteController extends Controller
 
                 if (count($booking) > 0) {
                     foreach ($booking as &$b) {
-                        
-                            $a_date = carbon::parse($b->arriving_time)->format('Y-m-d H:i:s');
-                            $l_date = carbon::parse($b->leaving_time)->format('Y-m-d H:i:s');
 
-                            $st = carbon::parse($start);
+                        $a_date = carbon::parse($b->arriving_time)->format('Y-m-d H:i:s');
+                        $l_date = carbon::parse($b->leaving_time)->format('Y-m-d H:i:s');
 
-                            $et = Carbon::parse($end);
+                        $st = carbon::parse($start);
 
-                            if ($st->between($a_date, $l_date)) {
-                                $bookedslot[] = $slot->id;
-                                $slot['available'] = false;
-                            } else {
-                                $slot['available'] = true;
-                            }
-                      
+                        $et = Carbon::parse($end);
+
+                        if ($st->between($a_date, $l_date)) {
+                            $bookedslot[] = $slot->id;
+                            $slot['available'] = false;
+                        } else {
+                            $slot['available'] = true;
+                        }
                     }
                 } else {
                     $slot['available'] = true;
@@ -403,19 +405,19 @@ class WebsiteController extends Controller
             }
         }
 
-        $spacezones = SpaceZone::where('status', 1)->get();
-        $spaceslots = SpaceSlot::all();
-        
-        
+        $spacezones = SpaceZone::where('status', 1)->where('space_id', $parkingspacedata['space_id'])->get();
+        $spaceslots = SpaceSlot::where('space_id', $parkingspacedata['space_id'])->get();
+
+
         foreach ($spaceslots as $key => $value) {
-           foreach ($bookedslot as $key => $value1) {
-            
-            if ($value1 == $value->id) {
-                $value['available'] = true;
-            }else{
-                $value['available'] = false;
+            foreach ($bookedslot as $key => $value1) {
+
+                if ($value1 == $value->id) {
+                    $value['available'] = true;
+                } else {
+                    $value['available'] = false;
+                }
             }
-           }
         }
         foreach ($spaceslots as $key => $value) {
             $parkingSpace = ParkingSpace::find($value->space_id);
@@ -443,8 +445,10 @@ class WebsiteController extends Controller
     public function getCheckout()
     {
         $adminsetting = AdminSetting::first(['paypal_status', 'stripe_status', 'stripe_public', 'currency', 'paypal_sandbox']);
-        $vehicles = UserVehicle::where('user_id', Auth::guard('appuser')->user()->id)->get();
         $parkingspace = session('parkingspace');
+        $vehicles = UserVehicle::where('user_id', Auth::guard('appuser')->user()->id)
+            ->where('id', $parkingspace['vehicle_id'])
+            ->first();
         $arrivingtime = Carbon::parse($parkingspace['arriving_time']);
         $leavingtime = Carbon::parse($parkingspace['leaving_time']);
         $duration = $leavingtime->diff($arrivingtime);
@@ -452,9 +456,14 @@ class WebsiteController extends Controller
         $hourDifference = $duration->h;
         $minuteDifference = $duration->i;
         $secondDifference = $duration->s;
+        $brandName = $vehicles ? $vehicles->brand . " - " . $vehicles->model . ' ' . $vehicles->vehicle_no : 'Unknown Brand';
+        $pricePerHour = $parkingspace['price_par_hour']; // EUR/hour
+        $totalMinutes = $arrivingtime->diffInMinutes($leavingtime);
+        $totalHours = $totalMinutes / 60; // Decimal hours
+        $totalPrice = round($totalHours * $pricePerHour, 2); // Rounded to 2 decimals
 
         $hourdifference = $leavingtime->diffInHours($arrivingtime);
-        return view('website.checkout', compact('adminsetting', 'vehicles', 'hourdifference', 'dayDifference', 'hourDifference', 'minuteDifference', 'secondDifference'));
+        return view('website.checkout', compact('adminsetting', 'brandName', 'hourdifference', 'dayDifference', 'hourDifference', 'minuteDifference', 'secondDifference', 'parkingspace','totalPrice'));
     }
 
     public function getFaqs()
