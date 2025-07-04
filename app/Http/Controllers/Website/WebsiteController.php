@@ -463,7 +463,7 @@ class WebsiteController extends Controller
         $totalPrice = round($totalHours * $pricePerHour, 2); // Rounded to 2 decimals
 
         $hourdifference = $leavingtime->diffInHours($arrivingtime);
-        return view('website.checkout', compact('adminsetting', 'brandName', 'hourdifference', 'dayDifference', 'hourDifference', 'minuteDifference', 'secondDifference', 'parkingspace','totalPrice'));
+        return view('website.checkout', compact('adminsetting', 'brandName', 'hourdifference', 'dayDifference', 'hourDifference', 'minuteDifference', 'secondDifference', 'parkingspace', 'totalPrice'));
     }
 
     public function getFaqs()
