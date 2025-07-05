@@ -133,9 +133,7 @@ Route::middleware(['XssSanitizer'])->group(function () {
 // -------  TODO: Paste Website Routes Data Here between start & end
 Route::get('/', [WebsiteController::class, 'dashboard']);
 Route::post('/user_login', [WebsiteController::class, 'userLogin']);
-Route::post('/user_verify', [WebsiteController::class, 'userVerify']);
 Route::post('/user_register', [WebsiteController::class, 'userRegister']);
-Route::post('/resend_mail', [WebsiteController::class, 'resendMail']);
 Route::post('/forgotpassword', [WebsiteController::class, 'userForgotPassword']);
 Route::get('/about_us', [WebsiteController::class, 'getAboutUs']);
 Route::get('/privacy_policy', [WebsiteController::class, 'getPrivacyPolicy']);
@@ -178,3 +176,6 @@ Route::get('/logout', [WebsiteController::class, 'logOut']);
 Route::group(['middleware' => ['auth']], function () {
     Route::put('pp/update', [AdminSettingController::class, 'updatePP'])->name('pp.update');
 });
+
+Route::get('auth/{provider}', [App\Http\Controllers\Auth\SocialAuthController::class, 'redirectToProvider']);
+Route::get('auth/{provider}/callback', [App\Http\Controllers\Auth\SocialAuthController::class, 'handleProviderCallback']);

@@ -50,7 +50,6 @@ class WebsiteController extends Controller
             $value->address = ParkingSpace::find($value->space_id)->address;
             $value->image = ParkingImage::find($value->space_id);
             $value->rate = Review::find($value->space_id);
-            
         }
         return view('website.home', compact('services', 'duplicateIds', 'spaceslots'));
     }
@@ -72,14 +71,7 @@ class WebsiteController extends Controller
             return response()->json($validate->errors(), 400);
         }
         if (Auth::guard('appuser')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::guard('appuser')->user();
-            if ($user->email_verified == 1) {
                 return response()->json(['success' => true, 'message' => 'Login successfully', 'redirect_location' => url("/")]);
-            } else {
-                Auth::guard('appuser')->logout();
-                $email = $user->email;
-                return response()->json(['success' => false, 'message' => 'Please verify your email', 'data' => $email, 'email' => $request->email]);
-            }
         } else {
 
             return response()->json(['success' => false, 'message' => 'Invalid credentials', "data" => Auth::guard('appuser')->attempt(['email' => $request->email, 'password' => $request->password])]);
@@ -100,105 +92,12 @@ class WebsiteController extends Controller
         }
 
         $reqData = $request->all();
-        $settings = AdminSetting::first();
+        AppUsers::create($reqData);
 
-        $email_otp = rand(100000, 999999);
-        $reqData['email_otp'] = $email_otp;
-        $user = AppUsers::create($reqData);
-
-        if ($settings->email_verification == 1) {
-            $reqData['email_verified'] = 0;
-            try {
-                $setting = AdminSetting::first();
-                $subject = 'Email Verification';
-                $useremail = $reqData['email'];
-                $otp = $reqData['email_otp'];
-
-                $config = array(
-                    'driver'     => $setting->mail_driver,
-                    'host'       => $setting->mail_host,
-                    'port'       => $setting->mail_port,
-                    'from'       => array('address' => $setting->mail_from_address, 'name' => $setting->mail_from_name),
-                    'encryption' => $setting->mail_encryption,
-                    'username'   => $setting->mail_username,
-                    'password'   => $setting->mail_password
-                );
-                Config::set('mail', $config);
-                Mail::to($request->email)->send(new EmailVerificationMail($subject, $setting->name, $useremail, $otp));
-                return response()->json(['success' => true, 'message' => 'Email verification OTP has been sent to your registered email, Please login verify with that code
-                ']);
-            } catch (Exception $e) {
-                return response()->json(['success' => false, 'data' => $e, "redirect_location" => url("/")]);
-            }
-        } else {
-            $reqData['email_verified'] = 1;
-            $user->update(['email_verified' => 1]);
-        }
+        
         return response()->json(['success' => true, 'message' => 'Registered successfully']);
     }
 
-    public function resendMail(Request $request)
-    {
-        $email = $request->email;
-        $email_otp = rand(100000, 999999);
-        if ($email) {
-            try {
-                $user = AppUsers::where('email', $email)->first();
-
-                if ($user) {
-                    $setting = AdminSetting::first();
-                    $subject = 'Email Verification';
-                    $useremail = $user->email;
-
-                    // Update email_otp in the user record
-                    $user->email_otp = $email_otp;
-                    $user->save();
-
-                    $otp = $email_otp;
-
-                    $config = array(
-                        'driver'     => $setting->mail_driver,
-                        'host'       => $setting->mail_host,
-                        'port'       => $setting->mail_port,
-                        'from'       => array('address' => $setting->mail_from_address, 'name' => $setting->mail_from_name),
-                        'encryption' => $setting->mail_encryption,
-                        'username'   => $setting->mail_username,
-                        'password'   => $setting->mail_password
-                    );
-                    Config::set('mail', $config);
-                    Mail::to($useremail)->send(new EmailVerificationMail($subject, $setting->name, $useremail, $otp));
-
-                    return response()->json(['success' => true, 'message' => 'Email verification OTP has been sent to your registered email.']);
-                } else {
-                    return response()->json(['success' => false, 'message' => 'User not found']);
-                }
-            } catch (Exception $e) {
-                return response()->json(['success' => false, 'data' => $e, 'redirect_location' => url("/")]);
-            }
-        }
-    }
-
-
-    public function userVerify(Request $request)
-    {
-        $rules = [
-            'otp' => 'bail|required|min:6',
-        ];
-        $validate = Validator::make($request->all(), $rules);
-        if ($validate->fails()) {
-            return response()->json($validate->errors(), 400);
-        }
-        $userData = AppUsers::where('email_otp', $request->otp)->first();
-
-        if ($userData && $userData['email_otp'] == $request->otp) {
-            Auth::guard('appuser')->login($userData);
-            $userData->email_verified = 1;
-            $userData->save();
-            return response()->json(['success' => true, 'data' => $userData, 'redirect_location' => url("/"), 'message' => 'Email verified successfully']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'OTP is invalid']);
-        }
-    }
 
 
     public function userProfile()
@@ -464,7 +363,7 @@ class WebsiteController extends Controller
         $totalPrice = round($totalHours * $pricePerHour, 2); // Rounded to 2 decimals
 
         $hourdifference = $leavingtime->diffInHours($arrivingtime);
-        return view('website.checkout', compact('adminsetting', 'brandName', 'hourdifference', 'dayDifference', 'hourDifference', 'minuteDifference', 'secondDifference', 'parkingspace', 'totalPrice'));
+        return view('website.checkout', compact('adminsetting', 'brandName', 'hourdifference', 'dayDifference', 'hourDifference', 'minuteDifference', 'secondDifference', 'parkingspace','totalPrice'));
     }
 
     public function getFaqs()

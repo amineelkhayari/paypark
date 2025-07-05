@@ -130,34 +130,6 @@ function verifyLogin() {
     });
 }
 
-//OTP mail resend
-function resendMail() {
-    document.getElementById('loader').style.display = 'block';
-    document.getElementById('loader').style.display = 'flex';
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: '/resend_mail',
-        data: {
-            email: emailData,
-            _token: $('meta[name="csrf-token"]').attr('content')
-        },
-
-        type: "POST",
-        dataType: 'json',
-        success: function (data) {
-            if (data.success == true) {
-                $("#verify-list").html(data.message);
-                document.getElementById('loader').style.display = 'none';
-                // window.location = data.redirect_location;
-            } else if (data.success == false) {
-                $("#verify-list").html(data.message);
-                document.getElementById('loader').style.display = 'none';
-            }
-        },
-    });
-}
 
 //sign up form
 "use strict";

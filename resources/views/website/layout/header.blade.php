@@ -8,15 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <meta name="theme-color" content="#1a73e8">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js');
-        });
-      }
-    </script>
 </head>
 
 <body>
@@ -170,6 +161,14 @@
                                 <!-- Modal body -->
                                 <img src="{{asset('website/image/login-logo.png')}}" alt="" class="mx-auto mb-8">
                                 <h5 class="font-poppins font-semibold text-2xl text-[#2A3342] text-center mb-16">{{__('Sign in to your account')}}</h5>
+                                <div class="flex justify-center gap-4 mb-6">
+                                    <a href="{{ url('auth/google') }}" class="px-4 py-2 bg-red-500 text-white rounded flex items-center gap-2 hover:bg-red-600">
+                                        <i class="fab fa-google"></i> Google
+                                    </a>
+                                    <a href="{{ url('auth/facebook') }}" class="px-4 py-2 bg-blue-600 text-white rounded flex items-center gap-2 hover:bg-blue-700">
+                                        <i class="fab fa-facebook-f"></i> Facebook
+                                    </a>
+                                </div>
                                 <form action="">
                                     @csrf
                                     <div class="form-group mb-5">
@@ -205,29 +204,7 @@
                     </div>
                 </div>
 
-                {{-- Email Verification --}}
-                <div id="EmailVerification" tabindex="-1" aria-hidden="true" class="modal fixed top-5 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto h-modal md:h-full">
-                    <div class="relative h-full md:h-auto flex items-center justify-center mx-auto lg:mt-[10%]">
-                        <!-- Modal content -->
-                        <div class="relative bg-white rounded-2xl shadow dark:bg-gray-700 p-8 xxxxl:w-[450px] s:w-full max-w-2xl">
-                            <div id="verify-list" class="w-full text-[#4fd69c] font-semibold font-normal text-center text-lg tracking-wide mb-2"></div>
-                            <!-- Modal body -->
-                            <img src="{{asset('website/image/login-logo.png')}}" alt="" class="mx-auto mb-8">
-                            <h5 class="font-poppins font-semibold text-2xl text-[#2A3342] text-center mb-16">{{__('Email Verification')}}</h5>
-                            <form action="">
-                                @csrf
-                                <div class="form-group mb-10">
-                                    <label for="otp" class="font-poppins font-medium text-black text-base tracking-wide">{{__('OTP')}}</label>
-                                    <input type="text" name="otp" value="{{old('otp')}}" class="border border-[#D5DAE1] w-full p-2 rounded-[8px] mt-3">
-                                    <div class="otp" style="color:red"></div>
-                                </div>
-                                <button type="button" class="w-full bg-primary rounded-[6px] h-12 font-poppins font-medium text-base text-white tracking-wide mb-5" onclick="verifyLogin()">{{__('Verify & Login')}}</button>
-                                <p class="text-center text-black font-poppins font-medium text-sm tracking-wide">{{__("Didn't receive the email?")}} </p>
-                            </form>
-                            <button type="button" class="text-primary absolute bottom-7 right-16" onclick="resendMail()">{{__('Resend')}}</button>
-                        </div>
-                    </div>
-                </div>
+               
 
                 {{-- Sign Up --}}
                 <div id="SignUp" tabindex="-1" aria-hidden="true" class="fixed top-5 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:max-h-full">
