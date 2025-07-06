@@ -162,7 +162,7 @@
                                 <img src="{{asset('website/image/login-logo.png')}}" alt="" class="mx-auto mb-8">
                                 <h5 class="font-poppins font-semibold text-2xl text-[#2A3342] text-center mb-16">{{__('Sign in to your account')}}</h5>
                                 <div class="flex justify-center gap-4 mb-6">
-                                    <a href="{{ url('auth/google') }}" class="px-4 py-2 bg-red-500 text-white rounded flex items-center gap-2 hover:bg-red-600">
+                                    <a href="{{ url('auth/google') }}" class="px-4 py-2 bg-warning text-white rounded flex items-center gap-2 hover:bg-red-600">
                                         <i class="fab fa-google"></i> Google
                                     </a>
                                     <a href="{{ url('auth/facebook') }}" class="px-4 py-2 bg-blue-600 text-white rounded flex items-center gap-2 hover:bg-blue-700">
