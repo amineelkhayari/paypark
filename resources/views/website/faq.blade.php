@@ -1,6 +1,6 @@
 @extends('website.layout.app', ['activePage' => 'faq'])
 @section('content')
-<div class="pt-10 pb-10 h-screen xxxxl:pl-[300px] xxxxl:pr-[300px] s:pl-[10px] s:pr-[10px] xxl:pl-[100px] xxl:pr-[100px] xxxl:pr-[150px] xxxl:pl-[150px] bg-gradient-to-r from-gradient-bg1 to-gradient-bg2">
+<div class="pt-10 pb-10 xxxxl:pl-[300px] xxxxl:pr-[300px] s:pl-[10px] s:pr-[10px] xxl:pl-[100px] xxl:pr-[100px] xxxl:pr-[150px] xxxl:pl-[150px] bg-gradient-to-r from-gradient-bg1 to-gradient-bg2">
 <h5 class="font-poppins font-semibold text-[#404F65] text-2xl mb-10">{{__('FAQ')}}</h5>
     <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
         @foreach($faq as $item)
