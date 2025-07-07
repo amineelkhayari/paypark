@@ -100,7 +100,11 @@
                             <div class="mb-5">
                                 <div class="flex justify-between l:items-center mb-5 l:flex-row s:flex-col">
                                     <div class="flex gap-3 items-center">
-                                        <img src="{{asset('upload/'.$review->user->image)}}" alt="" class="w-14 h-14 object-cover rounded-full">
+                                        @if(Str::startsWith($review->user->image, ['http://', 'https://']))
+                                            <img src="{{ $review->user->image }}" alt="" class="w-14 h-14 object-cover rounded-full">
+                                        @else
+                                            <img src="{{asset('upload/'.$review->user->image)}}" alt="" class="w-14 h-14 object-cover rounded-full">
+                                        @endif
                                         <div>
                                             <h6 class="font-poppins font-medium text-black text-lg mb-1">{{$review->user->name}}</h6>
                                             <div class="flex gap-2">

@@ -55,11 +55,15 @@
 
             <div class="bg-white xxxxl:rounded-[64px] md:p-10 s:p-4 mb-10 s:rounded-[30px]">
                 <h5 class="font-poppins font-bold text-dark-gray text-4xl mb-5">{{__('Featured Parkings')}}</h5>
-                {{-- <div class="grid lg:grid-cols-3 s:grid-cols-1 md:grid-cols-2 xxxxl:gap-10 s:gap-5">
+                <div class="grid lg:grid-cols-3 s:grid-cols-1 md:grid-cols-2 xxxxl:gap-10 s:gap-5">
                     @forelse($spaceslots as $item)
                     <div class="border border-light-gray rounded-[32px] p-5">
                         @if(isset($item->image))
-                        <img src="{{asset('upload/'.$item->image)}}" alt="" class="w-[376px] h-[330px] rounded-[8px] mb-5 object-cover">
+                            @if(Str::startsWith($item->image->imageUri, ['http://', 'https://']))
+                                <img src="{{$item->image->imageUri}}" alt="" class="w-[376px] h-[330px] rounded-[8px] mb-5 object-cover">
+                            @else
+                                <img src="{{asset('upload/'.$item->image)}}" alt="" class="w-[376px] h-[330px] rounded-[8px] mb-5 object-cover">
+                            @endif
                         @else
                         <img src="{{asset('/images/no-image-space.png')}}" alt="" class="w-[376px] h-[330px] rounded-[8px] mb-5 object-cover">
                         @endif
@@ -81,9 +85,9 @@
                     <p class="font-poppins font-medium text-lg text-[#556987] text-center mt-10">{{ __('No parkings are featured as of now') }}</p>
                     @endforelse
 
-                </div> --}}
+                </div>
 
-                 <div class="content-area w-full overflow-hidden">
+                 {{-- <div class="content-area w-full overflow-hidden">
                     <div class="platform h-full flex gap-5">
 
                         <div class="flex each-frame border-box">
@@ -183,7 +187,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>  --}}
 
             </div>
 
