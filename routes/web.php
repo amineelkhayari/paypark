@@ -42,6 +42,9 @@ Route::get('/clear-cache', function () {
 Route::get('/display', function () {
     Log::debug(date("d-m-Y (D) H:i:s"));
 });
+Route::get('/clear-app-cache', function () {
+    return view('clear-cache');
+});
 
 Auth::routes();
 Route::middleware(['XssSanitizer'])->group(function () {
