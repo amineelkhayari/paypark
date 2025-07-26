@@ -74,7 +74,7 @@
     <footer class="bottom-0">
         @include('website.layout.footer')
     </footer>
-    <button id="installAppBtn" style="display: block; position: fixed; bottom: 20px; right: 20px; background: #2563eb; color: white; padding: 10px 15px; border-radius: 8px; z-index: 9999;">
+    <button id="installAppBtn" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #2563eb; color: white; padding: 10px 15px; border-radius: 8px; z-index: 9999;">
     📲 Install App
 </button>
 
@@ -88,11 +88,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
 
     // Show the custom install button only if eligible
-    if (shouldShowInstallPrompt()) {
+    if (!isAppInstalled() && shouldShowInstallPrompt()) {
         const btn = document.getElementById('installAppBtn');
         if (btn) btn.style.display = 'block';
     }
 });
+
 
 document.getElementById('installAppBtn')?.addEventListener('click', async () => {
     if (deferredPrompt) {
@@ -109,7 +110,11 @@ document.getElementById('installAppBtn')?.addEventListener('click', async () => 
         document.getElementById('installAppBtn').style.display = 'none';
     }
 });
-
+// Check if running as installed app
+function isAppInstalled() {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           window.navigator.standalone === true; // For iOS
+}
 // Helper to decide if install should show
 function shouldShowInstallPrompt() {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;

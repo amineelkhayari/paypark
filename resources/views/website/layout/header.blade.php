@@ -61,7 +61,13 @@
                         @if(Auth::guard('appuser')->check())
                         <div class="lg:hidden mt-5">
                             <div class="flex flex-row space-x-2 items-center">
-                                <img src="{{asset('upload/'.Auth::guard('appuser')->user()->image)}}" alt="" class="rounded-full w-[46px] h-[46px] object-cover" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar1">
+                                @if(isset(Auth::guard('appuser')->user()->image))
+                                    @if(Auth::guard('appuser')->user()->image)
+                                        <img src="{{Auth::guard('appuser')->user()->image}}" alt="" class="rounded-full xxxxl:w-[46px] xxxxl:h-[46px] l:w-[35px] l:h-[35px] object-cover" id="dropdownNavbarLink">
+                                    @else
+                                        <img src="{{asset('upload/'.Auth::guard('appuser')->user()->image)}}" alt="" class="rounded-full xxxxl:w-[46px] xxxxl:h-[46px] l:w-[35px] l:h-[35px] object-cover" id="dropdownNavbarLink">
+                                    @endif
+                                @endif
                                 <h5 class="font-poppins font-semibold text-[#556987] text-lg">{{Auth::guard('appuser')->user()->name}}</h5>
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                 </svg></button>
