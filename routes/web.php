@@ -37,8 +37,10 @@ Route::get('/clear', function () {
     Artisan::call('route:clear');
     Artisan::call('view:clear');
     Artisan::call('optimize:clear');
+    if (Auth::guard('appuser')->check()) {
+        Auth::guard('appuser')->logout();
+    }
     return view('website.clear-cache');
-
 });
 Route::get('/display', function () {
     Log::debug(date("d-m-Y (D) H:i:s"));

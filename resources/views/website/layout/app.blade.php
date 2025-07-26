@@ -74,50 +74,55 @@
     <footer class="bottom-0">
         @include('website.layout.footer')
     </footer>
-    <button id="install-button" style="display: none;">
-  Install App
+    <button id="installAppBtn" style="display: block; position: fixed; bottom: 20px; right: 20px; background: #2563eb; color: white; padding: 10px 15px; border-radius: 8px; z-index: 9999;">
+    📲 Install App
 </button>
 
+
     <script>
-        let deferredPrompt;
+       <script>
+let deferredPrompt = null;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Check environment
-    if (shouldShowInstallPrompt()) {
-        e.preventDefault();
-        deferredPrompt = e;
+    // Prevent auto prompt
+    e.preventDefault();
+    deferredPrompt = e;
 
-        // Show your custom install button or prompt
-        document.getElementById('install-button').style.display = 'block';
-    } else {
-        // Prevent showing the install prompt in apps or already-installed PWAs
-        e.preventDefault();
+    // Show the custom install button only if eligible
+    if (shouldShowInstallPrompt()) {
+        const btn = document.getElementById('installAppBtn');
+        if (btn) btn.style.display = 'block';
     }
 });
 
-// Optional: Trigger install when user clicks
-document.getElementById('install-button')?.addEventListener('click', () => {
+document.getElementById('installAppBtn')?.addEventListener('click', async () => {
     if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            }
-            deferredPrompt = null;
-        });
+
+        const result = await deferredPrompt.userChoice;
+        if (result.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+        } else {
+            console.log('User dismissed the install prompt');
+        }
+
+        deferredPrompt = null;
+        document.getElementById('installAppBtn').style.display = 'none';
     }
 });
+
+// Helper to decide if install should show
 function shouldShowInstallPrompt() {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     const isWebView = (
-        // iOS WebView (no Safari in UA)
-        (/iPhone|iPod|iPad/.test(navigator.userAgent) && !navigator.userAgent.includes('Safari')) ||
-        // Android WebView
-        (/\bwv\b/.test(navigator.userAgent) || /\bVersion\/[\d.]+.*Chrome\/\d/.test(navigator.userAgent))
+        (/iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes('Safari')) ||
+        (/\bwv\b/.test(navigator.userAgent))
     );
 
     return !isStandalone && !isWebView;
 }
+</script>
+
 if (window.matchMedia('(display-mode: standalone)').matches) {
     document.getElementById('install-button').style.display = 'none';
 }

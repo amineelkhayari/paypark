@@ -27,7 +27,7 @@
         if ('caches' in window) {
             const cacheNames = await caches.keys();
             await Promise.all(cacheNames.map(name => caches.delete(name)));
-            alert('App cache cleared successfully!');
+            //alert('App cache cleared successfully!');
         }
 
         if ('serviceWorker' in navigator) {
@@ -35,7 +35,7 @@
             for (let registration of registrations) {
                 await registration.unregister();
             }
-            alert('Service worker unregistered!');
+            //alert('Service worker unregistered!');
 
         }
 
