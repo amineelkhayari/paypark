@@ -74,7 +74,54 @@
     <footer class="bottom-0">
         @include('website.layout.footer')
     </footer>
+    <button id="install-button" style="display: none;">
+  Install App
+</button>
+
     <script>
+        let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Check environment
+    if (shouldShowInstallPrompt()) {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show your custom install button or prompt
+        document.getElementById('install-button').style.display = 'block';
+    } else {
+        // Prevent showing the install prompt in apps or already-installed PWAs
+        e.preventDefault();
+    }
+});
+
+// Optional: Trigger install when user clicks
+document.getElementById('install-button')?.addEventListener('click', () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+        });
+    }
+});
+function shouldShowInstallPrompt() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    const isWebView = (
+        // iOS WebView (no Safari in UA)
+        (/iPhone|iPod|iPad/.test(navigator.userAgent) && !navigator.userAgent.includes('Safari')) ||
+        // Android WebView
+        (/\bwv\b/.test(navigator.userAgent) || /\bVersion\/[\d.]+.*Chrome\/\d/.test(navigator.userAgent))
+    );
+
+    return !isStandalone && !isWebView;
+}
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    document.getElementById('install-button').style.display = 'none';
+}
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/service-worker.js')
