@@ -34,8 +34,18 @@ self.addEventListener('fetch', function (event) {
         return;
     }
     // Always use NetworkFirst for homepage
-    const fetchEvery = ['/parking_map_list','/','/user_vehicle','/user_vehicle_store']
-    if (fetchEvery.some(path => url.pathname === path)) {
+    const fetchEvery = [
+        '/parking_map_list',
+        '/',
+        '/user_vehicle',
+        '/user_vehicle_store',
+        '/display_parking_booking',
+        '/parking_space/',
+        '/parking_slots',
+        '/parkingspace_booking',
+        '/checkout'
+    ]
+    if (fetchEvery.some(path => url.pathname.startsWith(path))) {
         event.respondWith(
             fetch(event.request)
                 .then(response => {
