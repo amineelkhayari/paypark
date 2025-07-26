@@ -127,9 +127,7 @@
                 <label for="pwd"><b> Name:</b></label>
                 <input type="text" class="form-control" name="name" required>
             </div>
-            <button type="submit" class="btn btn-lg btn-primary">Active</button>
-            <a href="https://support.saasmonks.in/" class="btn btn-lg btn-warning"> Contact
-                Support</a>
+           
 
             @if(session('status'))
             <p class="mb-4   text-20" style="color: #ffc107">{{session('status')}}</p>

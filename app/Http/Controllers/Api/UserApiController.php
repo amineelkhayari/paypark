@@ -268,14 +268,14 @@ class UserApiController extends Controller
     {
         $user = auth()->user();
         $booking = ParkingBooking::where('user_id',$user->id)->where('payment_status',0)->first();
-        if(isset($booking) && $user->email == 'demouser@saasmonks.in')
+        if(isset($booking) && $user->email == 'demouser@gmail.com')
         {
             return response()->json(['success' => false,'message' => 'Account Cant\'t Delete']);
         }
         else{
             $timezone = AdminSetting::first()->timezone;
             $user->name = 'Deleted User';
-            $user->email = ' deleteduser_'.Carbon::now($timezone)->format('Y_m_d_H_i_s').'@saasmonks.in';
+            $user->email = ' deleteduser_'.Carbon::now($timezone)->format('Y_m_d_H_i_s').'@gmail.com';
             $user->phone_no = '0000000000';
             $user->verified = 0;
             $user->status = 0;

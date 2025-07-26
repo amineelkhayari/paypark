@@ -4,6 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="PayPark - Parking Management System">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="PayPark">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/icons/icon-152x152.png') }}">
     @php
     $adminSetting = \App\AdminSetting::first();
     @endphp
@@ -56,7 +63,6 @@
     <link href="{{ asset('argon') }}/css/rtl_direction.css" rel="stylesheet">
     @endif
 </head>
-
 <body class="{{ $class ?? '' }}">
 <div id="loader" class="loader-container flex hidden">
                 <div class="loader"></div>
@@ -68,6 +74,19 @@
     <footer class="bottom-0">
         @include('website.layout.footer')
     </footer>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
