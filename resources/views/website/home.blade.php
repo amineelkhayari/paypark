@@ -68,7 +68,7 @@
                         <img src="{{asset('/images/no-image-space.png')}}" alt="" class="w-[376px] h-[330px] rounded-[8px] mb-5 object-cover">
                         @endif
                         <div class="flex justify-between mb-5">
-                            <h4 class="font-poppins font-semibold text-dark-gray text-xl">{{$item->name}}</h4>
+                            <h4 class="font-poppins font-semibold text-dark-gray text-xl">{{ $item->parkingTitle }} {{$item->name}}</h4>
                             @if(isset($item->rate))                            
                             <div class="flex gap-1 pl-2 pr-2 items-center w-[71px] h-[43px] bg-light-orange rounded-[8px]">
                                 <img src="{{asset('website/icon/star.svg')}}" alt="" class="w-5">

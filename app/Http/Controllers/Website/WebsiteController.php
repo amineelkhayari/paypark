@@ -48,8 +48,10 @@ class WebsiteController extends Controller
         $spaceslots = SpaceSlot::whereIn('id', $duplicateIds)->get();
         foreach ($spaceslots as $key => $value) {
             $value->address = ParkingSpace::find($value->space_id)->address;
+            $value->parkingTitle = ParkingSpace::find($value->space_id)->title;
             $value->image = ParkingImage::find($value->space_id);
             $value->rate = Review::find($value->space_id);
+
         }
         return view('website.home', compact('services', 'duplicateIds', 'spaceslots'));
     }
