@@ -63,9 +63,9 @@
                             <div class="flex flex-row space-x-2 items-center">
                                 @if(isset(Auth::guard('appuser')->user()->image))
                                     @if(Auth::guard('appuser')->user()->image)
-                                        <img src="{{Auth::guard('appuser')->user()->image}}" alt="" class="rounded-full xxxxl:w-[46px] xxxxl:h-[46px] l:w-[35px] l:h-[35px] object-cover" id="dropdownNavbarLink">
+                                        <img src="{{Auth::guard('appuser')->user()->image}}" alt="" class="rounded-full xxxxl:w-[46px] xxxxl:h-[46px] l:w-[35px] l:h-[35px] object-cover" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar1">
                                     @else
-                                        <img src="{{asset('upload/'.Auth::guard('appuser')->user()->image)}}" alt="" class="rounded-full xxxxl:w-[46px] xxxxl:h-[46px] l:w-[35px] l:h-[35px] object-cover" id="dropdownNavbarLink">
+                                        <img src="{{asset('upload/'.Auth::guard('appuser')->user()->image)}}" alt="" class="rounded-full xxxxl:w-[46px] xxxxl:h-[46px] l:w-[35px] l:h-[35px] object-cover" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar1">
                                     @endif
                                 @endif
                                 <h5 class="font-poppins font-semibold text-[#556987] text-lg">{{Auth::guard('appuser')->user()->name}}</h5>
