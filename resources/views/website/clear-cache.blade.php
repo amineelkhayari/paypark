@@ -36,9 +36,11 @@
                 await registration.unregister();
             }
             alert('Service worker unregistered!');
+
         }
 
         window.location.reload();
+window.location.href = "/";
     });
     </script>
 </body>

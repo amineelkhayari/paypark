@@ -31,20 +31,19 @@ use App\Http\Controllers\Website\UserVehiclesController;
 use App\Http\Controllers\Website\WebsiteController;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/clear-cache', function () {
+Route::get('/clear', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
     Artisan::call('route:clear');
     Artisan::call('view:clear');
     Artisan::call('optimize:clear');
-    return "Cache is cleared";
+    return view('website.clear-cache');
+
 });
 Route::get('/display', function () {
     Log::debug(date("d-m-Y (D) H:i:s"));
 });
-Route::get('/clear-app-cache', function () {
-    return view('clear-cache');
-});
+
 
 Auth::routes();
 Route::middleware(['XssSanitizer'])->group(function () {
