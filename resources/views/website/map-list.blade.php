@@ -6,8 +6,22 @@
 
             <div id="mymap" style="width: 600px; height: 600px;"></div>
         </div>
+        @if(count($parkingspace) == 0)
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 rounded-md shadow mb-6" role="alert">
+    <div class="flex items-center gap-2">
+        <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+        </svg>
+        <p class="text-lg font-medium">
+            No parking spaces available at the moment. Please check back later.
+        " <span class="font-bold text-black">{{ request('search') }}</span> "
+        </p>
+    </div>
+</div>
+
+        @endif
         <div>
-            
             @foreach($parkingspace as $key => $item)
             <div class="bg-white xxxxl:w-[630px] rounded-[8px] shadow p-4 xl:w-[580px] xxl:w-[620px] mb-5">
                 <div class="flex justify-between xxxxl:flex-row s:flex-col xl:flex-row">
@@ -37,8 +51,11 @@
             
             @endforeach
         </div>
+        
+         
     </div>
 </div>
+@if(count($parkingspace) > 0)
 <script>
     var markers = [];
 
@@ -77,6 +94,8 @@
     });
 };
 </script>
+@endif
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 

@@ -236,7 +236,7 @@ class WebsiteController extends Controller
         ]);
         $parkingspace = ParkingSpace::where([['title', 'LIKE', "%$request->search%"], ['status', 1]])->get();
         $adminsetting = AdminSetting::first(['currency_symbol', 'map_key']);
-        return view('website.map-list', compact('parkingspace', 'adminsetting'));
+        return view('website.map-list', compact('parkingspace', 'adminsetting','request'));
     }
 
     public function getParkingSpaceDetails($id)
