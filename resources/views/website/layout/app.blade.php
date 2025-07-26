@@ -80,7 +80,6 @@
 
 
     <script>
-       <script>
 let deferredPrompt = null;
 
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -121,7 +120,6 @@ function shouldShowInstallPrompt() {
 
     return !isStandalone && !isWebView;
 }
-</script>
 
 if (window.matchMedia('(display-mode: standalone)').matches) {
     document.getElementById('install-button').style.display = 'none';
