@@ -596,6 +596,11 @@ CREATE TABLE `parking_owner_setting` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+INSERT INTO `parking_owner_setting`( `owner_id`) VALUES (1);
+INSERT INTO `parking_owner_setting`( `owner_id`) VALUES (2);
+INSERT INTO `parking_owner_setting`( `owner_id`) VALUES (3);
+INSERT INTO `parking_owner_setting`( `owner_id`) VALUES (4);
+INSERT INTO `parking_owner_setting`( `owner_id`) VALUES (5);
 -- --------------------------------------------------------
 
 --
